@@ -28,17 +28,58 @@ public class SaldoBitcoin extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        lbl_senha = new javax.swing.JLabel();
+        lbl_senha1 = new javax.swing.JLabel();
+        lbl_senha2 = new javax.swing.JLabel();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        lbl_senha.setBackground(new java.awt.Color(68, 5, 18));
+        lbl_senha.setFont(new java.awt.Font("Lucida Calligraphy", 1, 24)); // NOI18N
+        lbl_senha.setForeground(new java.awt.Color(247, 237, 221));
+        lbl_senha.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbl_senha.setText("Bitcoin");
+
+        lbl_senha1.setBackground(new java.awt.Color(68, 5, 18));
+        lbl_senha1.setFont(new java.awt.Font("PMingLiU-ExtB", 1, 18)); // NOI18N
+        lbl_senha1.setForeground(new java.awt.Color(247, 237, 221));
+        lbl_senha1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbl_senha1.setText("Saldo");
+
+        lbl_senha2.setBackground(new java.awt.Color(68, 5, 18));
+        lbl_senha2.setFont(new java.awt.Font("Lucida Calligraphy", 1, 24)); // NOI18N
+        lbl_senha2.setForeground(new java.awt.Color(247, 237, 221));
+        lbl_senha2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lbl_senha2, javax.swing.GroupLayout.DEFAULT_SIZE, 348, Short.MAX_VALUE)
+                    .addComponent(lbl_senha, javax.swing.GroupLayout.DEFAULT_SIZE, 348, Short.MAX_VALUE))
+                .addContainerGap())
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(lbl_senha1, javax.swing.GroupLayout.DEFAULT_SIZE, 348, Short.MAX_VALUE)
+                    .addContainerGap()))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(91, 91, 91)
+                .addComponent(lbl_senha, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(lbl_senha2, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(85, Short.MAX_VALUE))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(16, 16, 16)
+                    .addComponent(lbl_senha1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(246, Short.MAX_VALUE)))
         );
 
         pack();
@@ -70,5 +111,8 @@ public class SaldoBitcoin extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel lbl_senha;
+    private javax.swing.JLabel lbl_senha1;
+    private javax.swing.JLabel lbl_senha2;
     // End of variables declaration//GEN-END:variables
 }

@@ -23,6 +23,7 @@ public class Cadastro extends javax.swing.JFrame {
      */
     public Cadastro() {
         initComponents();
+        getContentPane().setBackground(new java.awt.Color(244, 239, 234));
         this.setLocationRelativeTo(null); // Centraliza a janela
         
         // (II) Inicializa o controlador no construtor
@@ -137,98 +138,131 @@ public class Cadastro extends javax.swing.JFrame {
         bt_cadastrar = new javax.swing.JButton();
         txt_cadnome = new javax.swing.JTextField();
         lbl_cadnome = new javax.swing.JLabel();
+        lbl_titulo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(247, 237, 221));
 
-        lbl_cadastrar.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        lbl_cadastrar.setFont(new java.awt.Font("PMingLiU-ExtB", 1, 24)); // NOI18N
+        lbl_cadastrar.setForeground(new java.awt.Color(68, 5, 18));
         lbl_cadastrar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lbl_cadastrar.setText("CADASTRO");
+        lbl_cadastrar.setText("Cadastro");
 
-        lbl_cadcpf.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lbl_cadcpf.setFont(new java.awt.Font("PMingLiU-ExtB", 1, 18)); // NOI18N
+        lbl_cadcpf.setForeground(new java.awt.Color(68, 5, 18));
         lbl_cadcpf.setText("CPF:");
 
-        txt_cadcpf.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        txt_cadcpf.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txt_cadcpf.addActionListener(this::txt_cadcpfActionPerformed);
 
-        txt_cademail.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        txt_cademail.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txt_cademail.addActionListener(this::txt_cademailActionPerformed);
 
-        lbl_cademail.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lbl_cademail.setFont(new java.awt.Font("PMingLiU-ExtB", 1, 18)); // NOI18N
+        lbl_cademail.setForeground(new java.awt.Color(68, 5, 18));
         lbl_cademail.setText("Email:");
 
-        lbl_cadsenha.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lbl_cadsenha.setFont(new java.awt.Font("PMingLiU-ExtB", 1, 18)); // NOI18N
+        lbl_cadsenha.setForeground(new java.awt.Color(68, 5, 18));
         lbl_cadsenha.setText("Senha:");
 
-        txt_cadsenha.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        txt_cadsenha.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txt_cadsenha.addActionListener(this::txt_cadsenhaActionPerformed);
 
-        bt_cadastrar.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        bt_cadastrar.setText("CADASTRAR");
+        bt_cadastrar.setBackground(new java.awt.Color(68, 5, 18));
+        bt_cadastrar.setFont(new java.awt.Font("PMingLiU-ExtB", 1, 24)); // NOI18N
+        bt_cadastrar.setForeground(new java.awt.Color(240, 235, 227));
+        bt_cadastrar.setText("Cadastrar");
         bt_cadastrar.addActionListener(this::bt_cadastrarActionPerformed);
 
-        txt_cadnome.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        txt_cadnome.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
-        lbl_cadnome.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lbl_cadnome.setFont(new java.awt.Font("PMingLiU-ExtB", 1, 18)); // NOI18N
+        lbl_cadnome.setForeground(new java.awt.Color(68, 5, 18));
         lbl_cadnome.setText("Nome:");
+
+        lbl_titulo.setFont(new java.awt.Font("Lucida Calligraphy", 2, 36)); // NOI18N
+        lbl_titulo.setForeground(new java.awt.Color(68, 5, 18));
+        lbl_titulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbl_titulo.setText("ExchangeCripto");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lbl_cadastrar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 210, Short.MAX_VALUE)
+                .addGap(138, 138, 138)
+                .addComponent(bt_cadastrar, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lbl_cadnome, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txt_cadnome, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(bt_cadastrar, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lbl_cadcpf, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(txt_cademail, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(txt_cadcpf, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(lbl_cademail, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(lbl_cadsenha, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txt_cadsenha, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(201, 201, 201))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(lbl_cadastrar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(76, 76, 76)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(lbl_cadcpf, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lbl_cadsenha, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lbl_cadnome, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txt_cadcpf, javax.swing.GroupLayout.DEFAULT_SIZE, 335, Short.MAX_VALUE)
+                            .addComponent(txt_cadnome)
+                            .addComponent(txt_cademail)
+                            .addComponent(lbl_cademail, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txt_cadsenha))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(lbl_titulo, javax.swing.GroupLayout.DEFAULT_SIZE, 463, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(43, Short.MAX_VALUE)
+                .addComponent(lbl_titulo, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(31, 31, 31)
                 .addComponent(lbl_cadastrar, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(lbl_cadnome)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txt_cadnome, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txt_cadnome, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(12, 12, 12)
                 .addComponent(lbl_cadcpf)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txt_cadcpf, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(txt_cadcpf, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(12, 12, 12)
                 .addComponent(lbl_cademail, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txt_cademail, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txt_cademail, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lbl_cadsenha)
-                .addGap(7, 7, 7)
-                .addComponent(txt_cadsenha, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(bt_cadastrar, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(17, 17, 17))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txt_cadsenha, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26)
+                .addComponent(bt_cadastrar, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(71, 71, 71))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txt_cadsenhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_cadsenhaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txt_cadsenhaActionPerformed
-
     private void bt_cadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_cadastrarActionPerformed
         // TODO add your handling code here:
         c.salvarInvestidor();
     }//GEN-LAST:event_bt_cadastrarActionPerformed
+
+    private void txt_cadsenhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_cadsenhaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_cadsenhaActionPerformed
+
+    private void txt_cademailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_cademailActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_cademailActionPerformed
+
+    private void txt_cadcpfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_cadcpfActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_cadcpfActionPerformed
 
     /**
      * @param args the command line arguments
@@ -262,6 +296,7 @@ public class Cadastro extends javax.swing.JFrame {
     private javax.swing.JLabel lbl_cademail;
     private javax.swing.JLabel lbl_cadnome;
     private javax.swing.JLabel lbl_cadsenha;
+    private javax.swing.JLabel lbl_titulo;
     private javax.swing.JTextField txt_cadcpf;
     private javax.swing.JTextField txt_cademail;
     private javax.swing.JTextField txt_cadnome;
