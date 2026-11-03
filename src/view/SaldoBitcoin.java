@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package view;
+import model.Investidor;
 
 /**
  *
@@ -15,9 +16,27 @@ public class SaldoBitcoin extends javax.swing.JFrame {
     /**
      * Creates new form SaldoBitcoin
      */
+    
     public SaldoBitcoin() {
         initComponents();
+        getContentPane().setBackground(new java.awt.Color(68, 5, 18));
     }
+    
+    public SaldoBitcoin(Investidor investidor, double cotacaoBtc) {
+        initComponents();
+        getContentPane().setBackground(new java.awt.Color(68, 5, 18)); // Fundo vinho
+        // Garante que fecha apenas esta janela
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);     
+        txt_bitcoin.setText(String.format("%.4f BTC", investidor.getSaldoBtc()));
+
+        // Formata e exibe o saldo de Bitcoin
+        double valorEmReais = investidor.getSaldoBtc() * cotacaoBtc;
+        txt_bitcoin_conversao.setText(String.format("R$ %.2f", valorEmReais));    
+    }
+    
+    
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -28,62 +47,86 @@ public class SaldoBitcoin extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        lbl_senha = new javax.swing.JLabel();
-        lbl_senha1 = new javax.swing.JLabel();
-        lbl_senha2 = new javax.swing.JLabel();
+        lbl_bitcoin = new javax.swing.JLabel();
+        lbl_saldo = new javax.swing.JLabel();
+        txt_bitcoin_conversao = new javax.swing.JLabel();
+        bt_voltar = new javax.swing.JButton();
+        txt_bitcoin = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        lbl_senha.setBackground(new java.awt.Color(68, 5, 18));
-        lbl_senha.setFont(new java.awt.Font("Lucida Calligraphy", 1, 24)); // NOI18N
-        lbl_senha.setForeground(new java.awt.Color(247, 237, 221));
-        lbl_senha.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lbl_senha.setText("Bitcoin");
+        lbl_bitcoin.setBackground(new java.awt.Color(68, 5, 18));
+        lbl_bitcoin.setFont(new java.awt.Font("Lucida Calligraphy", 1, 24)); // NOI18N
+        lbl_bitcoin.setForeground(new java.awt.Color(247, 237, 221));
+        lbl_bitcoin.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbl_bitcoin.setText("Bitcoin");
 
-        lbl_senha1.setBackground(new java.awt.Color(68, 5, 18));
-        lbl_senha1.setFont(new java.awt.Font("PMingLiU-ExtB", 1, 18)); // NOI18N
-        lbl_senha1.setForeground(new java.awt.Color(247, 237, 221));
-        lbl_senha1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lbl_senha1.setText("Saldo");
+        lbl_saldo.setBackground(new java.awt.Color(247, 237, 221));
+        lbl_saldo.setFont(new java.awt.Font("PMingLiU-ExtB", 1, 18)); // NOI18N
+        lbl_saldo.setForeground(new java.awt.Color(247, 237, 221));
+        lbl_saldo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbl_saldo.setText("Saldo Atual");
 
-        lbl_senha2.setBackground(new java.awt.Color(68, 5, 18));
-        lbl_senha2.setFont(new java.awt.Font("Lucida Calligraphy", 1, 24)); // NOI18N
-        lbl_senha2.setForeground(new java.awt.Color(247, 237, 221));
-        lbl_senha2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        txt_bitcoin_conversao.setBackground(new java.awt.Color(68, 5, 18));
+        txt_bitcoin_conversao.setFont(new java.awt.Font("PMingLiU-ExtB", 1, 18)); // NOI18N
+        txt_bitcoin_conversao.setForeground(new java.awt.Color(247, 237, 221));
+        txt_bitcoin_conversao.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
+        bt_voltar.setBackground(new java.awt.Color(247, 237, 221));
+        bt_voltar.setFont(new java.awt.Font("PMingLiU-ExtB", 1, 18)); // NOI18N
+        bt_voltar.setForeground(new java.awt.Color(68, 5, 18));
+        bt_voltar.setText("Voltar");
+        bt_voltar.setBorder(null);
+        bt_voltar.addActionListener(this::bt_voltarActionPerformed);
+
+        txt_bitcoin.setBackground(new java.awt.Color(68, 5, 18));
+        txt_bitcoin.setFont(new java.awt.Font("PMingLiU-ExtB", 1, 24)); // NOI18N
+        txt_bitcoin.setForeground(new java.awt.Color(247, 237, 221));
+        txt_bitcoin.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(bt_voltar, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(111, 111, 111))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lbl_senha2, javax.swing.GroupLayout.DEFAULT_SIZE, 348, Short.MAX_VALUE)
-                    .addComponent(lbl_senha, javax.swing.GroupLayout.DEFAULT_SIZE, 348, Short.MAX_VALUE))
+                    .addComponent(txt_bitcoin_conversao, javax.swing.GroupLayout.DEFAULT_SIZE, 348, Short.MAX_VALUE)
+                    .addComponent(lbl_bitcoin, javax.swing.GroupLayout.DEFAULT_SIZE, 348, Short.MAX_VALUE)
+                    .addComponent(txt_bitcoin, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 348, Short.MAX_VALUE))
                 .addContainerGap())
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(lbl_senha1, javax.swing.GroupLayout.DEFAULT_SIZE, 348, Short.MAX_VALUE)
-                    .addContainerGap()))
+                .addComponent(lbl_saldo, javax.swing.GroupLayout.DEFAULT_SIZE, 360, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(91, 91, 91)
-                .addComponent(lbl_senha, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(69, 69, 69)
+                .addComponent(lbl_bitcoin)
                 .addGap(18, 18, 18)
-                .addComponent(lbl_senha2, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(85, Short.MAX_VALUE))
+                .addComponent(txt_bitcoin, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                .addComponent(txt_bitcoin_conversao, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(bt_voltar, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(20, 20, 20))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
-                    .addGap(16, 16, 16)
-                    .addComponent(lbl_senha1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(246, Short.MAX_VALUE)))
+                    .addComponent(lbl_saldo, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 244, Short.MAX_VALUE)))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void bt_voltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_voltarActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_bt_voltarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -111,8 +154,10 @@ public class SaldoBitcoin extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel lbl_senha;
-    private javax.swing.JLabel lbl_senha1;
-    private javax.swing.JLabel lbl_senha2;
+    private javax.swing.JButton bt_voltar;
+    private javax.swing.JLabel lbl_bitcoin;
+    private javax.swing.JLabel lbl_saldo;
+    private javax.swing.JLabel txt_bitcoin;
+    private javax.swing.JLabel txt_bitcoin_conversao;
     // End of variables declaration//GEN-END:variables
 }

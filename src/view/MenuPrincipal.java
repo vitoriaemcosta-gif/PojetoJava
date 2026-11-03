@@ -217,6 +217,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         bt_atualizar.setFont(new java.awt.Font("PMingLiU-ExtB", 1, 18)); // NOI18N
         bt_atualizar.setForeground(new java.awt.Color(217, 184, 168));
         bt_atualizar.setText("Atualizar Cotação");
+        bt_atualizar.setBorder(null);
         bt_atualizar.addActionListener(this::bt_atualizarActionPerformed);
 
         bt_vender.setBackground(new java.awt.Color(240, 235, 227));
@@ -312,22 +313,22 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
     private void bt_realActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_realActionPerformed
         // TODO add your handling code here:
-        if (controle != null) controle.consultarSaldoDetalhado();
+        controle.consultarSaldoReais();
     }//GEN-LAST:event_bt_realActionPerformed
 
     private void bt_bitcoinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_bitcoinActionPerformed
         // TODO add your handling code here:
-        if (controle != null) controle.consultarSaldoDetalhado();
+        controle.consultarSaldoBtc();
     }//GEN-LAST:event_bt_bitcoinActionPerformed
 
     private void bt_rippleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_rippleActionPerformed
         // TODO add your handling code here:
-        if (controle != null) controle.consultarSaldoDetalhado();
+        controle.consultarSaldoXrp();
     }//GEN-LAST:event_bt_rippleActionPerformed
 
     private void bt_ethereumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_ethereumActionPerformed
         // TODO add your handling code here:
-        if (controle != null) controle.consultarSaldoDetalhado();
+        controle.consultarSaldoEth();
     }//GEN-LAST:event_bt_ethereumActionPerformed
 
     private void bt_sacarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_sacarActionPerformed

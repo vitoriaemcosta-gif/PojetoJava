@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package view;
+import model.Investidor;
 
 /**
  *
@@ -17,8 +18,23 @@ public class SaldoEthereum extends javax.swing.JFrame {
      */
     public SaldoEthereum() {
         initComponents();
+        getContentPane().setBackground(new java.awt.Color(68, 5, 18));
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
     }
 
+    // Construtor com parâmetros para exibir o saldo em ETH e a conversão em Reais
+    public SaldoEthereum(Investidor investidor, double cotacaoEth) {
+        initComponents();
+        getContentPane().setBackground(new java.awt.Color(68, 5, 18)); // Fundo vinho
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+
+        // Exibe a quantidade de Ethereum
+        txt_ethereum.setText(String.format("%.4f ETH", investidor.getSaldoEth()));
+        
+        // Calcula e exibe o valor convertido em Reais na label correspondente (ex: lbl_saldo)
+        double valorEmReais = investidor.getSaldoEth() * cotacaoEth;
+        txt_ethereum_conversao.setText(String.format("R$ %.2f", valorEmReais));
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -28,21 +44,86 @@ public class SaldoEthereum extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        txt_ethereum_conversao = new javax.swing.JLabel();
+        bt_voltar = new javax.swing.JButton();
+        txt_ethereum = new javax.swing.JLabel();
+        lbl_ethereum = new javax.swing.JLabel();
+        lbl_saldo = new javax.swing.JLabel();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        txt_ethereum_conversao.setBackground(new java.awt.Color(68, 5, 18));
+        txt_ethereum_conversao.setFont(new java.awt.Font("PMingLiU-ExtB", 1, 18)); // NOI18N
+        txt_ethereum_conversao.setForeground(new java.awt.Color(247, 237, 221));
+        txt_ethereum_conversao.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
+        bt_voltar.setBackground(new java.awt.Color(247, 237, 221));
+        bt_voltar.setFont(new java.awt.Font("PMingLiU-ExtB", 1, 18)); // NOI18N
+        bt_voltar.setForeground(new java.awt.Color(68, 5, 18));
+        bt_voltar.setText("Voltar");
+        bt_voltar.setBorder(null);
+        bt_voltar.addActionListener(this::bt_voltarActionPerformed);
+
+        txt_ethereum.setBackground(new java.awt.Color(68, 5, 18));
+        txt_ethereum.setFont(new java.awt.Font("PMingLiU-ExtB", 1, 24)); // NOI18N
+        txt_ethereum.setForeground(new java.awt.Color(247, 237, 221));
+        txt_ethereum.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
+        lbl_ethereum.setBackground(new java.awt.Color(68, 5, 18));
+        lbl_ethereum.setFont(new java.awt.Font("Lucida Calligraphy", 1, 24)); // NOI18N
+        lbl_ethereum.setForeground(new java.awt.Color(247, 237, 221));
+        lbl_ethereum.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbl_ethereum.setText("Ethereum");
+
+        lbl_saldo.setBackground(new java.awt.Color(247, 237, 221));
+        lbl_saldo.setFont(new java.awt.Font("PMingLiU-ExtB", 1, 18)); // NOI18N
+        lbl_saldo.setForeground(new java.awt.Color(247, 237, 221));
+        lbl_saldo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbl_saldo.setText("Saldo Atual");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lbl_ethereum, javax.swing.GroupLayout.PREFERRED_SIZE, 348, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txt_ethereum_conversao, javax.swing.GroupLayout.PREFERRED_SIZE, 348, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txt_ethereum, javax.swing.GroupLayout.PREFERRED_SIZE, 348, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap())
+                    .addComponent(lbl_saldo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(bt_voltar, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(107, 107, 107))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(lbl_saldo, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lbl_ethereum)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
+                .addComponent(txt_ethereum, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(txt_ethereum_conversao, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(bt_voltar, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(20, 20, 20))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void bt_voltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_voltarActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_bt_voltarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -70,5 +151,10 @@ public class SaldoEthereum extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton bt_voltar;
+    private javax.swing.JLabel lbl_ethereum;
+    private javax.swing.JLabel lbl_saldo;
+    private javax.swing.JLabel txt_ethereum;
+    private javax.swing.JLabel txt_ethereum_conversao;
     // End of variables declaration//GEN-END:variables
 }

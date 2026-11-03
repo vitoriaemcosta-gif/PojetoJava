@@ -8,6 +8,10 @@ import model.Investidor;
 import view.MenuPrincipal;
 import view.Login;
 import dao.Conexao;
+import view.SaldoBitcoin;
+import view.SaldoReais;
+import view.SaldoRipple;
+import view.SaldoEthereum;
 
 public class ControleMenuPrincipal {
     
@@ -31,28 +35,84 @@ public class ControleMenuPrincipal {
     public void carregarSaldos() {
         tela.getLbl_saldo().setText(String.format("R$ %.2f", investidorLogado.getSaldoReais()));
     }
-
-    public void consultarSaldoDetalhado() {
+    public void consultarSaldoReais() {
         String senha = JOptionPane.showInputDialog(tela, "Digite sua senha de 6 dígitos:", "Confirmação de Segurança", JOptionPane.QUESTION_MESSAGE);
         
         if (senha != null) {
             if (senha.equals(investidorLogado.getSenha())) {
-                String mensagem = String.format(
-                    "Nome: %s\nCPF: %s\nReais: R$ %.2f\nBitcoin: %.4f BTC\nEthereum: %.4f ETH\nRipple: %.4f XRP",
-                    investidorLogado.getNome(),
-                    investidorLogado.getCpf(),
-                    investidorLogado.getSaldoReais(),
-                    investidorLogado.getSaldoBtc(),
-                    investidorLogado.getSaldoEth(),
-                    investidorLogado.getSaldoXrp()
-                );
-                JOptionPane.showMessageDialog(tela, mensagem, "Saldo Detalhado da Carteira", JOptionPane.INFORMATION_MESSAGE);
+                // Abre a view SaldoReais passando o investidor logado
+                SaldoReais telaReais = new SaldoReais(investidorLogado);
+                telaReais.setLocationRelativeTo(tela);
+                telaReais.setVisible(true);
             } else {
-                JOptionPane.showMessageDialog(tela, "Senha incorreta!", "Erro", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(tela, "Senha incorreta!", "Erro", 
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+    public void consultarSaldoBtc() {
+        String senha = JOptionPane.showInputDialog(tela, "Digite sua senha de 6 "
+                + "dígitos:", "Confirmação de Segurança", 
+                JOptionPane.QUESTION_MESSAGE);
+        
+        if (senha != null) {
+            if (senha.equals(investidorLogado.getSenha())) {
+                // Abre a view SaldoBitcoin passando o investidor logado e a 
+                //cotação atual
+                SaldoBitcoin telaBtc = new SaldoBitcoin(investidorLogado, 
+                        cotacaoBtc);
+                telaBtc.setLocationRelativeTo(tela); // Centraliza em relação à 
+                //janela principal
+                telaBtc.setVisible(true);
+            } else {
+                JOptionPane.showMessageDialog(tela, "Senha incorreta!", "Erro", 
+                        JOptionPane.ERROR_MESSAGE);
             }
         }
     }
 
+    public void consultarSaldoXrp() {
+        String senha = JOptionPane.showInputDialog(tela, "Digite sua senha de 6 "
+                + "dígitos:", "Confirmação de Segurança", 
+                JOptionPane.QUESTION_MESSAGE);
+        
+        if (senha != null) {
+            if (senha.equals(investidorLogado.getSenha())) {
+                // Abre a view SaldoRipple passando o investidor logado e a 
+                //cotação atual
+                SaldoRipple telaRipple = new SaldoRipple(investidorLogado, 
+                        cotacaoXrp);
+                telaRipple.setLocationRelativeTo(tela); // Centraliza em relação à 
+                //janela principal
+                telaRipple.setVisible(true);
+            } else {
+                JOptionPane.showMessageDialog(tela, "Senha incorreta!", "Erro", 
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+    
+    public void consultarSaldoEth() {
+        String senha = JOptionPane.showInputDialog(tela, "Digite sua senha de 6 "
+                + "dígitos:", "Confirmação de Segurança", 
+                JOptionPane.QUESTION_MESSAGE);
+        
+        if (senha != null) {
+            if (senha.equals(investidorLogado.getSenha())) {
+                // Abre a view SaldoEthereum passando o investidor logado e a 
+                //cotação atual
+                SaldoEthereum telaEth = new SaldoEthereum(investidorLogado, 
+                        cotacaoEth);
+                telaEth.setLocationRelativeTo(tela); // Centraliza em relação à 
+                //janela principal
+                telaEth.setVisible(true);
+            } else {
+                JOptionPane.showMessageDialog(tela, "Senha incorreta!", "Erro", 
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+    
     public void depositar() {
         String valorStr = JOptionPane.showInputDialog(tela, "Digite o valor que deseja depositar (R$):");
         if (valorStr != null && !valorStr.isEmpty()) {

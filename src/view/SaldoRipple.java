@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package view;
-
+import model.Investidor;
 /**
  *
  * @author vitor
@@ -17,6 +17,21 @@ public class SaldoRipple extends javax.swing.JFrame {
      */
     public SaldoRipple() {
         initComponents();
+        getContentPane().setBackground(new java.awt.Color(68, 5, 18));
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+    }
+    
+    public SaldoRipple(Investidor investidor, double cotacaoXrp) {
+        initComponents();
+        // Aplica a cor de fundo
+        getContentPane().setBackground(new java.awt.Color(68, 5, 18));
+        // Garante que fecha apenas esta janela
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        // Calcula e exibe o saldo de Ripple formatado
+        txt_ripple.setText(String.format("%.4f XRP", investidor.getSaldoXrp()));
+        // Calcula e exibe o valor convertido em Reais na label correspondente (ex: lbl_saldo)
+        double valorEmReais = investidor.getSaldoXrp() * cotacaoXrp;
+        txt_ripple_conversao.setText(String.format("R$ %.2f", valorEmReais));
     }
 
     /**
@@ -28,21 +43,88 @@ public class SaldoRipple extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        bt_voltar = new javax.swing.JButton();
+        txt_ripple = new javax.swing.JLabel();
+        lbl_ripple = new javax.swing.JLabel();
+        lbl_saldo = new javax.swing.JLabel();
+        txt_ripple_conversao = new javax.swing.JLabel();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        bt_voltar.setBackground(new java.awt.Color(247, 237, 221));
+        bt_voltar.setFont(new java.awt.Font("PMingLiU-ExtB", 1, 18)); // NOI18N
+        bt_voltar.setForeground(new java.awt.Color(68, 5, 18));
+        bt_voltar.setText("Voltar");
+        bt_voltar.setBorder(null);
+        bt_voltar.addActionListener(this::bt_voltarActionPerformed);
+
+        txt_ripple.setBackground(new java.awt.Color(68, 5, 18));
+        txt_ripple.setFont(new java.awt.Font("PMingLiU-ExtB", 1, 24)); // NOI18N
+        txt_ripple.setForeground(new java.awt.Color(247, 237, 221));
+        txt_ripple.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
+        lbl_ripple.setBackground(new java.awt.Color(68, 5, 18));
+        lbl_ripple.setFont(new java.awt.Font("Lucida Calligraphy", 1, 24)); // NOI18N
+        lbl_ripple.setForeground(new java.awt.Color(247, 237, 221));
+        lbl_ripple.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbl_ripple.setText("Ripple");
+
+        lbl_saldo.setBackground(new java.awt.Color(247, 237, 221));
+        lbl_saldo.setFont(new java.awt.Font("PMingLiU-ExtB", 1, 18)); // NOI18N
+        lbl_saldo.setForeground(new java.awt.Color(247, 237, 221));
+        lbl_saldo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbl_saldo.setText("Saldo Atual");
+
+        txt_ripple_conversao.setBackground(new java.awt.Color(68, 5, 18));
+        txt_ripple_conversao.setFont(new java.awt.Font("PMingLiU-ExtB", 1, 18)); // NOI18N
+        txt_ripple_conversao.setForeground(new java.awt.Color(247, 237, 221));
+        txt_ripple_conversao.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addComponent(lbl_saldo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(lbl_ripple, javax.swing.GroupLayout.PREFERRED_SIZE, 348, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(bt_voltar, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(109, 109, 109))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(txt_ripple_conversao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(txt_ripple, javax.swing.GroupLayout.PREFERRED_SIZE, 348, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(lbl_saldo, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lbl_ripple, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(12, 12, 12)
+                .addComponent(txt_ripple, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(txt_ripple_conversao, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(bt_voltar, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(17, 17, 17))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void bt_voltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_voltarActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_bt_voltarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -70,5 +152,10 @@ public class SaldoRipple extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton bt_voltar;
+    private javax.swing.JLabel lbl_ripple;
+    private javax.swing.JLabel lbl_saldo;
+    private javax.swing.JLabel txt_ripple;
+    private javax.swing.JLabel txt_ripple_conversao;
     // End of variables declaration//GEN-END:variables
 }

@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package view;
-
+import model.Investidor;
 /**
  *
  * @author vitor
@@ -17,6 +17,16 @@ public class SaldoReais extends javax.swing.JFrame {
      */
     public SaldoReais() {
         initComponents();
+        getContentPane().setBackground(new java.awt.Color(68, 5, 18));
+    }
+    
+        public SaldoReais(Investidor investidor) {
+        initComponents();
+        getContentPane().setBackground(new java.awt.Color(68, 5, 18)); // Fundo vinho
+        // Garante que fecha apenas esta janela
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        // Formata e exibe o saldo de Bitcoin
+        txt_reais.setText(String.format("R$ %.2f", investidor.getSaldoReais()));
     }
 
     /**
@@ -29,25 +39,80 @@ public class SaldoReais extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
+        txt_reais = new javax.swing.JLabel();
+        lbl_reais = new javax.swing.JLabel();
+        lbl_saldo = new javax.swing.JLabel();
+        bt_voltar = new javax.swing.JButton();
 
         jLabel1.setText("jLabel1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(68, 5, 18));
 
+        txt_reais.setBackground(new java.awt.Color(68, 5, 18));
+        txt_reais.setFont(new java.awt.Font("PMingLiU-ExtB", 1, 24)); // NOI18N
+        txt_reais.setForeground(new java.awt.Color(247, 237, 221));
+        txt_reais.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
+        lbl_reais.setBackground(new java.awt.Color(68, 5, 18));
+        lbl_reais.setFont(new java.awt.Font("Lucida Calligraphy", 1, 24)); // NOI18N
+        lbl_reais.setForeground(new java.awt.Color(247, 237, 221));
+        lbl_reais.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbl_reais.setText("Reais");
+
+        lbl_saldo.setBackground(new java.awt.Color(247, 237, 221));
+        lbl_saldo.setFont(new java.awt.Font("PMingLiU-ExtB", 1, 18)); // NOI18N
+        lbl_saldo.setForeground(new java.awt.Color(247, 237, 221));
+        lbl_saldo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbl_saldo.setText("Saldo Atual");
+
+        bt_voltar.setBackground(new java.awt.Color(247, 237, 221));
+        bt_voltar.setFont(new java.awt.Font("PMingLiU-ExtB", 1, 18)); // NOI18N
+        bt_voltar.setForeground(new java.awt.Color(68, 5, 18));
+        bt_voltar.setText("Voltar");
+        bt_voltar.setBorder(null);
+        bt_voltar.addActionListener(this::bt_voltarActionPerformed);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(bt_voltar, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(109, 109, 109))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(lbl_reais, javax.swing.GroupLayout.PREFERRED_SIZE, 348, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(txt_reais, javax.swing.GroupLayout.PREFERRED_SIZE, 348, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+            .addComponent(lbl_saldo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(lbl_saldo, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26)
+                .addComponent(lbl_reais, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(txt_reais, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                .addComponent(bt_voltar, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(23, 23, 23))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void bt_voltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_voltarActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_bt_voltarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -75,6 +140,10 @@ public class SaldoReais extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton bt_voltar;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel lbl_reais;
+    private javax.swing.JLabel lbl_saldo;
+    private javax.swing.JLabel txt_reais;
     // End of variables declaration//GEN-END:variables
 }
