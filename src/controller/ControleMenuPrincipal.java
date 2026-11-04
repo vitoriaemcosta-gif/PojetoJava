@@ -12,6 +12,8 @@ import view.SaldoBitcoin;
 import view.SaldoReais;
 import view.SaldoRipple;
 import view.SaldoEthereum;
+import view.Senha;
+import view.Deposito;
 
 public class ControleMenuPrincipal {
     
@@ -36,27 +38,38 @@ public class ControleMenuPrincipal {
         tela.getLbl_saldo().setText(String.format("R$ %.2f", investidorLogado.getSaldoReais()));
     }
     public void consultarSaldoReais() {
-        String senha = JOptionPane.showInputDialog(tela, "Digite sua senha de 6 dígitos:", "Confirmação de Segurança", JOptionPane.QUESTION_MESSAGE);
+         // Instancia a sua view personalizada de senha
+        Senha telaSenha = new Senha();
+        telaSenha.setLocationRelativeTo(tela);
         
-        if (senha != null) {
-            if (senha.equals(investidorLogado.getSenha())) {
+        // Define a ação ao clicar no botão "Confirmar Senha" da sua view
+        telaSenha.getBt_senha().addActionListener(e -> {
+            String senhaDigitada = telaSenha.getSenhaDigitada();
+            
+            if (senhaDigitada.equals(investidorLogado.getSenha())) {
+                telaSenha.dispose(); // Fecha a tela de senha
                 // Abre a view SaldoReais passando o investidor logado
                 SaldoReais telaReais = new SaldoReais(investidorLogado);
                 telaReais.setLocationRelativeTo(tela);
                 telaReais.setVisible(true);
             } else {
-                JOptionPane.showMessageDialog(tela, "Senha incorreta!", "Erro", 
-                        JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(telaSenha, "Senha incorreta!", "Erro", JOptionPane.ERROR_MESSAGE);
             }
-        }
+        });
+        telaSenha.setVisible(true);
     }
+    
     public void consultarSaldoBtc() {
-        String senha = JOptionPane.showInputDialog(tela, "Digite sua senha de 6 "
-                + "dígitos:", "Confirmação de Segurança", 
-                JOptionPane.QUESTION_MESSAGE);
+       // Instancia a sua view personalizada de senha
+        Senha telaSenha = new Senha();
+        telaSenha.setLocationRelativeTo(tela);
         
-        if (senha != null) {
-            if (senha.equals(investidorLogado.getSenha())) {
+        // Define a ação ao clicar no botão "Confirmar Senha" da sua view
+        telaSenha.getBt_senha().addActionListener(e -> {
+            String senhaDigitada = telaSenha.getSenhaDigitada();
+            
+            if (senhaDigitada.equals(investidorLogado.getSenha())) {
+                telaSenha.dispose(); // Fecha a tela de senha
                 // Abre a view SaldoBitcoin passando o investidor logado e a 
                 //cotação atual
                 SaldoBitcoin telaBtc = new SaldoBitcoin(investidorLogado, 
@@ -65,19 +78,23 @@ public class ControleMenuPrincipal {
                 //janela principal
                 telaBtc.setVisible(true);
             } else {
-                JOptionPane.showMessageDialog(tela, "Senha incorreta!", "Erro", 
-                        JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(telaSenha, "Senha incorreta!", "Erro", JOptionPane.ERROR_MESSAGE);
             }
-        }
+        });
+        telaSenha.setVisible(true);
     }
 
     public void consultarSaldoXrp() {
-        String senha = JOptionPane.showInputDialog(tela, "Digite sua senha de 6 "
-                + "dígitos:", "Confirmação de Segurança", 
-                JOptionPane.QUESTION_MESSAGE);
+        // Instancia a sua view personalizada de senha
+        Senha telaSenha = new Senha();
+        telaSenha.setLocationRelativeTo(tela);
         
-        if (senha != null) {
-            if (senha.equals(investidorLogado.getSenha())) {
+        // Define a ação ao clicar no botão "Confirmar Senha" da sua view
+        telaSenha.getBt_senha().addActionListener(e -> {
+            String senhaDigitada = telaSenha.getSenhaDigitada();
+            
+            if (senhaDigitada.equals(investidorLogado.getSenha())) {
+                telaSenha.dispose(); // Fecha a tela de senha
                 // Abre a view SaldoRipple passando o investidor logado e a 
                 //cotação atual
                 SaldoRipple telaRipple = new SaldoRipple(investidorLogado, 
@@ -86,19 +103,23 @@ public class ControleMenuPrincipal {
                 //janela principal
                 telaRipple.setVisible(true);
             } else {
-                JOptionPane.showMessageDialog(tela, "Senha incorreta!", "Erro", 
-                        JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(telaSenha, "Senha incorreta!", "Erro", JOptionPane.ERROR_MESSAGE);
             }
-        }
+        });
+        telaSenha.setVisible(true);
     }
     
     public void consultarSaldoEth() {
-        String senha = JOptionPane.showInputDialog(tela, "Digite sua senha de 6 "
-                + "dígitos:", "Confirmação de Segurança", 
-                JOptionPane.QUESTION_MESSAGE);
+         // Instancia a sua view personalizada de senha
+        Senha telaSenha = new Senha();
+        telaSenha.setLocationRelativeTo(tela);
         
-        if (senha != null) {
-            if (senha.equals(investidorLogado.getSenha())) {
+        // Define a ação ao clicar no botão "Confirmar Senha" da sua view
+        telaSenha.getBt_senha().addActionListener(e -> {
+            String senhaDigitada = telaSenha.getSenhaDigitada();
+            
+            if (senhaDigitada.equals(investidorLogado.getSenha())) {
+                telaSenha.dispose(); // Fecha a tela de senha
                 // Abre a view SaldoEthereum passando o investidor logado e a 
                 //cotação atual
                 SaldoEthereum telaEth = new SaldoEthereum(investidorLogado, 
@@ -107,34 +128,66 @@ public class ControleMenuPrincipal {
                 //janela principal
                 telaEth.setVisible(true);
             } else {
-                JOptionPane.showMessageDialog(tela, "Senha incorreta!", "Erro", 
-                        JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(telaSenha, "Senha incorreta!", "Erro", JOptionPane.ERROR_MESSAGE);
             }
-        }
+        });
+        telaSenha.setVisible(true);
     }
     
-    public void depositar() {
-        String valorStr = JOptionPane.showInputDialog(tela, "Digite o valor que deseja depositar (R$):");
-        if (valorStr != null && !valorStr.isEmpty()) {
-            try {
-                double valor = Double.parseDouble(valorStr);
-                if (valor > 0) {
-                    investidorLogado.setSaldoReais(investidorLogado.getSaldoReais() + valor);
-                    atualizarSaldosNoBanco();
+public void depositar() {
+        // Instancia a nova view de depósito que criaste
+        Deposito telaDeposito = new Deposito();
+        // Centraliza em relação à tela principal
+        telaDeposito.setLocationRelativeTo(tela); 
+        
+        // Configura a ação do botão de confirmar depósito
+        telaDeposito.getBt_depositar().addActionListener(e -> {
+            String valorStr = telaDeposito.getValorDigitado();
+            
+            if (valorStr != null && !valorStr.isEmpty()) {
+                try {
+                    // Converte o texto para double (substituindo 
+                    //vírgula por ponto caso o utilizador digite com vírgula)
+                    double valor = Double.parseDouble(valorStr.replace(",", "."));
                     
-                    JOptionPane.showMessageDialog(tela, "Depósito de R$ " + valor + " realizado com sucesso!");
-                    carregarSaldos();
-                } else {
-                    JOptionPane.showMessageDialog(tela, "O valor deve ser maior que zero!", "Aviso", JOptionPane.WARNING_MESSAGE);
+                    // Instancia o controlador específico de depósito passando 
+                    //o investidor logado
+                    ControleDeposito controleDep = new ControleDeposito
+                        (investidorLogado);
+                    
+                    if (controleDep.realizarDeposito(valor)) {
+                        JOptionPane.showMessageDialog(telaDeposito, "Depósito "
+                                + "de R$ " + String.format("%.2f", valor) + 
+                                " realizado com sucesso!", "Sucesso", 
+                                JOptionPane.INFORMATION_MESSAGE);
+                        
+                        // Atualiza os saldos visíveis no menu principal
+                        carregarSaldos(); 
+                        telaDeposito.dispose(); // Fecha a janela de depósito
+                    } else {
+                        JOptionPane.showMessageDialog(telaDeposito, "O valor do "
+                                + "depósito deve ser maior que zero!", "Aviso", 
+                                JOptionPane.WARNING_MESSAGE);
+                    }
+                    
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(telaDeposito, "Por favor, "
+                            + "digite um número válido!", "Erro", 
+                            JOptionPane.ERROR_MESSAGE);
                 }
-            } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(tela, "Por favor, digite um número válido!", "Erro", JOptionPane.ERROR_MESSAGE);
             }
-        }
+        });
+        
+        // Configura a ação do botão voltar
+        telaDeposito.getBt_voltar().addActionListener(e -> telaDeposito.dispose());
+        
+        telaDeposito.setVisible(true);
     }
 
-    public void sacar() {
-        String valorStr = JOptionPane.showInputDialog(tela, "Digite o valor que deseja sacar (R$):");
+
+public void sacar() {
+        String valorStr = JOptionPane.showInputDialog(tela, "Digite o valor "
+                + "que deseja sacar (R$):");
         if (valorStr != null && !valorStr.isEmpty()) {
             try {
                 double valor = Double.parseDouble(valorStr);

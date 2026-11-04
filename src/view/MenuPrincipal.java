@@ -22,11 +22,15 @@ public class MenuPrincipal extends javax.swing.JFrame {
      */
     public MenuPrincipal() {
         initComponents();
+        getContentPane().setBackground(new java.awt.Color(244, 239, 234));
+
     }
 
     public MenuPrincipal(Investidor investidorLogado) {
         initComponents();
         controle = new ControleMenuPrincipal(this, investidorLogado);
+        getContentPane().setBackground(new java.awt.Color(244, 239, 234));
+
     }
 
     public ControleMenuPrincipal getControle() {
