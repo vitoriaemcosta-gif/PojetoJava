@@ -1,5 +1,6 @@
 package controller;
 
+import java.util.Locale;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -14,6 +15,9 @@ import view.SaldoRipple;
 import view.SaldoEthereum;
 import view.Senha;
 import view.Deposito;
+import view.Saque;
+import view.Cotacao;
+import view.Compra;
 
 public class ControleMenuPrincipal {
     
@@ -134,138 +138,113 @@ public class ControleMenuPrincipal {
         telaSenha.setVisible(true);
     }
     
-public void depositar() {
-        // Instancia a nova view de depósito que criaste
-        Deposito telaDeposito = new Deposito();
-        // Centraliza em relação à tela principal
-        telaDeposito.setLocationRelativeTo(tela); 
-        
-        // Configura a ação do botão de confirmar depósito
-        telaDeposito.getBt_depositar().addActionListener(e -> {
-            String valorStr = telaDeposito.getValorDigitado();
-            
-            if (valorStr != null && !valorStr.isEmpty()) {
-                try {
-                    // Converte o texto para double (substituindo 
-                    //vírgula por ponto caso o utilizador digite com vírgula)
-                    double valor = Double.parseDouble(valorStr.replace(",", "."));
-                    
-                    // Instancia o controlador específico de depósito passando 
-                    //o investidor logado
-                    ControleDeposito controleDep = new ControleDeposito
-                        (investidorLogado);
-                    
-                    if (controleDep.realizarDeposito(valor)) {
-                        JOptionPane.showMessageDialog(telaDeposito, "Depósito "
-                                + "de R$ " + String.format("%.2f", valor) + 
-                                " realizado com sucesso!", "Sucesso", 
-                                JOptionPane.INFORMATION_MESSAGE);
-                        
-                        // Atualiza os saldos visíveis no menu principal
-                        carregarSaldos(); 
-                        telaDeposito.dispose(); // Fecha a janela de depósito
-                    } else {
-                        JOptionPane.showMessageDialog(telaDeposito, "O valor do "
-                                + "depósito deve ser maior que zero!", "Aviso", 
-                                JOptionPane.WARNING_MESSAGE);
-                    }
-                    
-                } catch (NumberFormatException ex) {
-                    JOptionPane.showMessageDialog(telaDeposito, "Por favor, "
-                            + "digite um número válido!", "Erro", 
-                            JOptionPane.ERROR_MESSAGE);
-                }
-            }
-        });
-        
-        // Configura a ação do botão voltar
-        telaDeposito.getBt_voltar().addActionListener(e -> telaDeposito.dispose());
-        
-        telaDeposito.setVisible(true);
-    }
+    public void depositar() {
+            Deposito telaDeposito = new Deposito();
+            telaDeposito.setLocationRelativeTo(tela);
 
+            // Ação ao clicar no botão de confirmar depósito
+            telaDeposito.getBt_deposito().addActionListener(e -> {
+                String valorStr = telaDeposito.getValorDigitado();
 
-public void sacar() {
-        String valorStr = JOptionPane.showInputDialog(tela, "Digite o valor "
-                + "que deseja sacar (R$):");
-        if (valorStr != null && !valorStr.isEmpty()) {
-            try {
-                double valor = Double.parseDouble(valorStr);
-                if (valor > 0) {
-                    if (investidorLogado.getSaldoReais() >= valor) {
-                        investidorLogado.setSaldoReais(investidorLogado.getSaldoReais() - valor);
-                        atualizarSaldosNoBanco();
-                        
-                        JOptionPane.showMessageDialog(tela, "Saque de R$ " + valor + " realizado com sucesso!");
-                        carregarSaldos();
-                    } else {
-                        JOptionPane.showMessageDialog(tela, "Saldo insuficiente para saque! O saldo não pode ficar negativo.", "Erro", JOptionPane.ERROR_MESSAGE);
+                if (valorStr != null && !valorStr.isEmpty() && !valorStr.equals("R$ 0,00")) {
+                    try {
+                        // Limpa o formato monetário ("R$", pontos de milhar e troca vírgula por ponto)
+                        String valorLimpo = valorStr.replace("R$", "")
+                                                    .replace(" ", "")
+                                                    .replace(".", "")
+                                                    .replace(",", ".");
+
+                        double valor = Double.parseDouble(valorLimpo);
+
+                        ControleDeposito controleDep = new ControleDeposito(investidorLogado);
+
+                        if (controleDep.realizarDeposito(valor)) {
+                            JOptionPane.showMessageDialog(telaDeposito, "Depósito de R$ " + String.format("%.2f", valor) + " realizado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                            carregarSaldos(); // Atualiza os saldos no menu principal
+                            telaDeposito.dispose(); // Fecha a tela de depósito
+                        } else {
+                            JOptionPane.showMessageDialog(telaDeposito, "O valor do depósito deve ser maior que zero!", "Aviso", JOptionPane.WARNING_MESSAGE);
+                        }
+
+                    } catch (NumberFormatException ex) {
+                        JOptionPane.showMessageDialog(telaDeposito, "Por favor, digite um número válido!", "Erro", JOptionPane.ERROR_MESSAGE);
                     }
                 } else {
-                    JOptionPane.showMessageDialog(tela, "O valor deve ser maior que zero!", "Aviso", JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(telaDeposito, "Por favor, insira um valor para depositar!", "Aviso", JOptionPane.WARNING_MESSAGE);
                 }
-            } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(tela, "Por favor, digite um número válido!", "Erro", JOptionPane.ERROR_MESSAGE);
-            }
+            });
+
+            // Ação do botão voltar com o ícone
+            telaDeposito.getBt_voltar().addActionListener(e -> telaDeposito.dispose());
+
+            telaDeposito.setVisible(true);
         }
-    }
+
+    public void sacar() {
+            Saque telaSaque = new Saque();
+            telaSaque.setLocationRelativeTo(tela);
+
+            // Ação ao clicar no botão de confirmar saque
+            telaSaque.getBt_saque().addActionListener(e -> {
+                String valorStr = telaSaque.getValorDigitado();
+
+                if (valorStr != null && !valorStr.isEmpty() && !valorStr.equals("R$ 0,00")) {
+                    try {
+                        // Limpa o formato monetário
+                        String valorLimpo = valorStr.replace("R$", "")
+                                                    .replace(" ", "")
+                                                    .replace(".", "")
+                                                    .replace(",", ".");
+
+                        double valor = Double.parseDouble(valorLimpo);
+
+                        ControleSaque controleSaq = new ControleSaque(investidorLogado);
+
+                        if (controleSaq.realizarSaque(valor)) {
+                            JOptionPane.showMessageDialog(telaSaque, "Saque de R$ " + String.format("%.2f", valor) + " realizado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                            carregarSaldos(); // Atualiza os saldos no menu principal
+                            telaSaque.dispose(); // Fecha a tela de saque
+                        } else {
+                            JOptionPane.showMessageDialog(telaSaque, "Saldo insuficiente ou valor inválido para saque!", "Aviso", JOptionPane.WARNING_MESSAGE);
+                        }
+
+                    } catch (NumberFormatException ex) {
+                        JOptionPane.showMessageDialog(telaSaque, "Por favor, digite um número válido!", "Erro", JOptionPane.ERROR_MESSAGE);
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(telaSaque, "Por favor, insira um valor para sacar!", "Aviso", JOptionPane.WARNING_MESSAGE);
+                }
+            });
+
+            // Ação do botão voltar
+            telaSaque.getBt_voltar().addActionListener(e -> telaSaque.dispose());
+
+            telaSaque.setVisible(true);
+        }
+
 
     public void comprar() {
-        String senha = JOptionPane.showInputDialog(tela, "Digite sua senha de 6 dígitos para comprar:", "Segurança", JOptionPane.QUESTION_MESSAGE);
-        if (senha != null) {
-            if (!senha.equals(investidorLogado.getSenha())) {
-                JOptionPane.showMessageDialog(tela, "Senha incorreta!", "Erro", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
+            Senha telaSenha = new Senha();
+            telaSenha.setLocationRelativeTo(tela);
 
-            String[] opcoesMoedas = {"Bitcoin (BTC)", "Ethereum (ETH)", "Ripple (XRP)"};
-            int escolha = JOptionPane.showOptionDialog(
-                tela, "Selecione a criptomoeda que deseja comprar:", "Compra de Criptoativo",
-                JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, opcoesMoedas, opcoesMoedas[0]
-            );
+            telaSenha.getBt_senha().addActionListener(e -> {
+                String senhaDigitada = telaSenha.getSenhaDigitada();
 
-            if (escolha == JOptionPane.CLOSED_OPTION) return;
+                if (senhaDigitada.equals(investidorLogado.getSenha())) {
+                    telaSenha.dispose(); // Fecha a tela de senha
 
-            String valorStr = JOptionPane.showInputDialog(tela, "Digite o valor em Reais (R$) que deseja investir:");
-            if (valorStr != null && !valorStr.isEmpty()) {
-                try {
-                    double valorReais = Double.parseDouble(valorStr);
-                    if (valorReais <= 0) {
-                        JOptionPane.showMessageDialog(tela, "O valor deve ser maior que zero!", "Aviso", JOptionPane.WARNING_MESSAGE);
-                        return;
-                    }
-
-                    double taxa = 0;
-                    double cotacao = 0;
-
-                    if (escolha == 0) { taxa = 0.02; cotacao = cotacaoBtc; } // BTC: 2%
-                    else if (escolha == 1) { taxa = 0.01; cotacao = cotacaoEth; } // ETH: 1%
-                    else if (escolha == 2) { taxa = 0.01; cotacao = cotacaoXrp; } // XRP: 1%
-
-                    double valorTaxa = valorReais * taxa;
-                    double valorLiquido = valorReais - valorTaxa;
-
-                    if (investidorLogado.getSaldoReais() >= valorReais) {
-                        investidorLogado.setSaldoReais(investidorLogado.getSaldoReais() - valorReais);
-                        double qtdCrypto = valorLiquido / cotacao;
-
-                        if (escolha == 0) investidorLogado.setSaldoBtc(investidorLogado.getSaldoBtc() + qtdCrypto);
-                        else if (escolha == 1) investidorLogado.setSaldoEth(investidorLogado.getSaldoEth() + qtdCrypto);
-                        else if (escolha == 2) investidorLogado.setSaldoXrp(investidorLogado.getSaldoXrp() + qtdCrypto);
-
-                        atualizarSaldosNoBanco();
-                        carregarSaldos();
-                        JOptionPane.showMessageDialog(tela, String.format("Compra realizada com sucesso!\nTaxa cobrada: R$ %.2f\nQuantidade adquirida: %.4f", valorTaxa, qtdCrypto));
-                    } else {
-                        JOptionPane.showMessageDialog(tela, "Saldo em Reais insuficiente para esta compra!", "Erro", JOptionPane.ERROR_MESSAGE);
-                    }
-                } catch (NumberFormatException e) {
-                    JOptionPane.showMessageDialog(tela, "Por favor, digite um número válido!", "Erro", JOptionPane.ERROR_MESSAGE);
+                    // Abre a tela de Compra passando o investidor logado
+                    Compra telaCompra = new Compra(investidorLogado);
+                    telaCompra.setLocationRelativeTo(tela);
+                    telaCompra.setVisible(true);
+                } else {
+                    JOptionPane.showMessageDialog(telaSenha, "Senha incorreta!", 
+                            "Erro", JOptionPane.ERROR_MESSAGE);
                 }
-            }
-        }
+            });
+            telaSenha.setVisible(true);
     }
-
+    
     public void vender() {
         String senha = JOptionPane.showInputDialog(tela, "Digite sua senha de 6 dígitos para vender:", "Segurança", JOptionPane.QUESTION_MESSAGE);
         if (senha != null) {
@@ -329,17 +308,24 @@ public void sacar() {
         }
     }
 
-    public void atualizarCotacao() {
-        cotacaoBtc *= (1 + (Math.random() * 0.10 - 0.05));
-        cotacaoEth *= (1 + (Math.random() * 0.10 - 0.05));
-        cotacaoXrp *= (1 + (Math.random() * 0.10 - 0.05));
+public void atualizarCotacao() {
+    // Atualiza as cotações aleatoriamente
+    cotacaoBtc *= (1 + (Math.random() * 0.10 - 0.05));
+    cotacaoEth *= (1 + (Math.random() * 0.10 - 0.05));
+    cotacaoXrp *= (1 + (Math.random() * 0.10 - 0.05));
 
-        JOptionPane.showMessageDialog(tela, String.format(
-            "Cotações atualizadas com sucesso!\n\nBitcoin: R$ %.2f\nEthereum: R$ %.2f\nRipple: R$ %.2f",
-            cotacaoBtc, cotacaoEth, cotacaoXrp
-        ), "Atualização de Mercado", JOptionPane.INFORMATION_MESSAGE);
-    }
-
+    // Instancia e abre a tua nova View personalizada
+    Cotacao telaCotacao = new Cotacao();
+    telaCotacao.setLocationRelativeTo(tela);
+    
+    // Preenche os valores formatados nas labels da view
+    telaCotacao.setValoresCotacao(cotacaoBtc, cotacaoEth, cotacaoXrp); 
+    
+    // Configura a ação do botão voltar da view (se já não estiver configurado dentro dela)
+    telaCotacao.getBt_voltar().addActionListener(e -> telaCotacao.dispose());
+    
+    telaCotacao.setVisible(true);
+}
     public void sair() {
         tela.dispose();
         Login login = new Login();

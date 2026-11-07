@@ -63,14 +63,14 @@ public class Login extends javax.swing.JFrame {
         lbl_cadastrar1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbl_cadastrar1.setText("Login");
 
-        txt_senha.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txt_senha.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         txt_senha.addActionListener(this::txt_senhaActionPerformed);
 
         lbl_senha.setFont(new java.awt.Font("PMingLiU-ExtB", 1, 18)); // NOI18N
         lbl_senha.setForeground(new java.awt.Color(68, 5, 18));
         lbl_senha.setText("Senha:");
 
-        txt_cpf.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txt_cpf.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 
         bt_cadastrar.setBackground(new java.awt.Color(68, 5, 18));
         bt_cadastrar.setFont(new java.awt.Font("PMingLiU-ExtB", 1, 24)); // NOI18N

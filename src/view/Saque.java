@@ -17,8 +17,75 @@ public class Saque extends javax.swing.JFrame {
      */
     public Saque() {
         initComponents();
+        getContentPane().setBackground(new java.awt.Color(244, 239, 234));
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+
+        // Placeholder e formatação monetária (igual ao depósito)
+        txt_saque.setForeground(java.awt.Color.GRAY);
+        txt_saque.setText("R$ 0,00");
+
+        txt_saque.addFocusListener(new java.awt.event.FocusAdapter() {
+            @Override
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                if (txt_saque.getText().equals("R$ 0,00")) {
+                    txt_saque.setText("");
+                    txt_saque.setForeground(java.awt.Color.BLACK);
+                }
+            }
+
+            @Override
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                if (txt_saque.getText().isEmpty()) {
+                    txt_saque.setForeground(java.awt.Color.GRAY);
+                    txt_saque.setText("R$ 0,00");
+                }
+            }
+        });
+
+        txt_saque.addKeyListener(new java.awt.event.KeyAdapter() {
+            private String digits = "";
+
+            @Override
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                char c = evt.getKeyChar();
+                if (c == '\b' && !digits.isEmpty()) {
+                    digits = digits.substring(0, digits.length() - 1);
+                } else if (Character.isDigit(c)) {
+                    digits += c;
+                }
+                evt.consume();
+
+                if (digits.isEmpty()) {
+                    txt_saque.setText("R$ 0,00");
+                    return;
+                }
+
+                try {
+                    long valorLong = Long.parseLong(digits);
+                    double valorDouble = valorLong / 100.0;
+                    txt_saque.setText(String.format("R$ %,.2f", valorDouble));
+                } catch (NumberFormatException e) {
+                    digits = "";
+                    txt_saque.setText("R$ 0,00");
+                }
+            }
+        });
     }
 
+        
+    // Getters para o Controller
+    public String getValorDigitado() {
+        return txt_saque.getText();
+    }
+
+    public javax.swing.JButton getBt_saque() {
+        return bt_saque;
+    }
+
+    public javax.swing.JButton getBt_voltar() {
+        return bt_voltar;
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -28,40 +95,43 @@ public class Saque extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        lbl_senha = new javax.swing.JLabel();
-        lbl_senha2 = new javax.swing.JLabel();
-        txt_senha = new javax.swing.JTextField();
-        bt_senha = new javax.swing.JButton();
-        lbl_senha3 = new javax.swing.JLabel();
+        lbl_saque = new javax.swing.JLabel();
+        lbl_sq = new javax.swing.JLabel();
+        txt_saque = new javax.swing.JTextField();
+        bt_saque = new javax.swing.JButton();
+        lbl_sq2 = new javax.swing.JLabel();
         bt_voltar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(247, 237, 221));
 
-        lbl_senha.setBackground(new java.awt.Color(68, 5, 18));
-        lbl_senha.setFont(new java.awt.Font("PMingLiU-ExtB", 1, 24)); // NOI18N
-        lbl_senha.setForeground(new java.awt.Color(68, 5, 18));
-        lbl_senha.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lbl_senha.setText("Saque em Reais");
+        lbl_saque.setBackground(new java.awt.Color(68, 5, 18));
+        lbl_saque.setFont(new java.awt.Font("PMingLiU-ExtB", 1, 24)); // NOI18N
+        lbl_saque.setForeground(new java.awt.Color(68, 5, 18));
+        lbl_saque.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbl_saque.setText("Saque em Reais");
 
-        lbl_senha2.setFont(new java.awt.Font("PMingLiU-ExtB", 1, 18)); // NOI18N
-        lbl_senha2.setForeground(new java.awt.Color(68, 5, 18));
-        lbl_senha2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lbl_senha2.setText("Por favor, digite o valor que");
+        lbl_sq.setFont(new java.awt.Font("PMingLiU-ExtB", 1, 18)); // NOI18N
+        lbl_sq.setForeground(new java.awt.Color(68, 5, 18));
+        lbl_sq.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbl_sq.setText("Por favor, digite o valor que");
 
-        bt_senha.setBackground(new java.awt.Color(68, 5, 18));
-        bt_senha.setFont(new java.awt.Font("PMingLiU-ExtB", 1, 18)); // NOI18N
-        bt_senha.setForeground(new java.awt.Color(247, 237, 221));
-        bt_senha.setText("Confirmar Saque");
-        bt_senha.addActionListener(this::bt_senhaActionPerformed);
+        txt_saque.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 
-        lbl_senha3.setFont(new java.awt.Font("PMingLiU-ExtB", 1, 18)); // NOI18N
-        lbl_senha3.setForeground(new java.awt.Color(68, 5, 18));
-        lbl_senha3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lbl_senha3.setText("deseja sacar em Reais:");
+        bt_saque.setBackground(new java.awt.Color(68, 5, 18));
+        bt_saque.setFont(new java.awt.Font("PMingLiU-ExtB", 1, 18)); // NOI18N
+        bt_saque.setForeground(new java.awt.Color(247, 237, 221));
+        bt_saque.setText("Confirmar Saque");
+        bt_saque.addActionListener(this::bt_saqueActionPerformed);
 
-        bt_voltar.setBackground(new java.awt.Color(247, 237, 221));
-        bt_voltar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/icones/seta-esquerda (2).png"))); // NOI18N
+        lbl_sq2.setFont(new java.awt.Font("PMingLiU-ExtB", 1, 18)); // NOI18N
+        lbl_sq2.setForeground(new java.awt.Color(68, 5, 18));
+        lbl_sq2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbl_sq2.setText("deseja sacar em Reais:");
+
+        bt_voltar.setBackground(new java.awt.Color(244, 239, 234));
+        bt_voltar.setFont(new java.awt.Font("PMingLiU-ExtB", 1, 18)); // NOI18N
+        bt_voltar.setText("X");
         bt_voltar.setBorder(null);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -74,45 +144,43 @@ public class Saque extends javax.swing.JFrame {
                         .addContainerGap()
                         .addComponent(bt_voltar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(lbl_senha, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(lbl_saque, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(64, 64, 64)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(txt_senha)
-                                .addComponent(lbl_senha2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(lbl_senha3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(txt_saque)
+                                .addComponent(lbl_sq, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(lbl_sq2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(29, 29, 29)
-                                .addComponent(bt_senha, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(bt_saque, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(64, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lbl_senha, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(bt_voltar, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lbl_saque, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bt_voltar, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(29, 29, 29)
-                .addComponent(lbl_senha2)
+                .addComponent(lbl_sq)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lbl_senha3, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lbl_sq2, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(24, 24, 24)
-                .addComponent(txt_senha, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txt_saque, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(33, 33, 33)
-                .addComponent(bt_senha, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(bt_saque, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 36, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void bt_senhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_senhaActionPerformed
+    private void bt_saqueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_saqueActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_bt_senhaActionPerformed
+    }//GEN-LAST:event_bt_saqueActionPerformed
 
     /**
      * @param args the command line arguments
@@ -140,11 +208,11 @@ public class Saque extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton bt_senha;
+    private javax.swing.JButton bt_saque;
     private javax.swing.JButton bt_voltar;
-    private javax.swing.JLabel lbl_senha;
-    private javax.swing.JLabel lbl_senha2;
-    private javax.swing.JLabel lbl_senha3;
-    private javax.swing.JTextField txt_senha;
+    private javax.swing.JLabel lbl_saque;
+    private javax.swing.JLabel lbl_sq;
+    private javax.swing.JLabel lbl_sq2;
+    private javax.swing.JTextField txt_saque;
     // End of variables declaration//GEN-END:variables
 }

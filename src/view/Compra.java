@@ -2,7 +2,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
+
 package view;
+
+import javax.swing.JOptionPane;
+import model.Investidor;
 
 /**
  *
@@ -11,14 +15,80 @@ package view;
 public class Compra extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Compra.class.getName());
-
+    private Investidor investidor;
+    private final java.util.Locale ptBr = java.util.Locale.forLanguageTag("pt-BR");
+    private final java.text.NumberFormat formatoMoeda = java.text.NumberFormat.getCurrencyInstance(ptBr);
+    
     /**
      * Creates new form Compra
      */
-    public Compra() {
+    public Compra(Investidor investidor) {
+        this.investidor = investidor;
         initComponents();
+        configurarCampoMonetario();
+        getContentPane().setBackground(new java.awt.Color(244, 239, 234));
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setLocationRelativeTo(null);
+        
+        // Exibe o saldo formatado e a cotação inicial
+        lb_valor_cotacao1.setText(formatoMoeda.format(investidor.getSaldoReais()));
+        atualizarCotacao();
+    }
+    
+    private void atualizarCotacao() {
+        String moedaSelecionada = (String) ComBox_compra.getSelectedItem();
+        double cotacao = 0.0;
+
+        if (moedaSelecionada != null) {
+            switch (moedaSelecionada) {
+                case "Bitcoin": cotacao = 350000.00; break;
+                case "Ethereum": cotacao = 18000.00; break;
+                case "Ripple": cotacao = 3.50; break;
+            }
+        }
+        lb_valor_cotacao.setText(formatoMoeda.format(cotacao));
+    }
+    
+    private void configurarCampoMonetario() {
+        // Formata o campo para aceitar valores monetários em formato brasileiro
+        txt_valor_compra.setText("R$ 0,00");
+        
+        txt_valor_compra.addFocusListener(new java.awt.event.FocusAdapter() {
+            @Override
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                if (txt_valor_compra.getText().equals("R$ 0,00")) {
+                    txt_valor_compra.setText("");
+                }
+            }
+            @Override
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                if (txt_valor_compra.getText().trim().isEmpty()) {
+                    txt_valor_compra.setText("R$ 0,00");
+                }
+            }
+        });
     }
 
+    private void formatarCampoMoedaAoDigitar(java.awt.event.KeyEvent evt) {
+        String texto = txt_valor_compra.getText().replaceAll("[^0-9]", "");
+        
+        if (texto.isEmpty()) {
+            txt_valor_compra.setText("R$ 0,00");
+            txt_valor_compra.setCaretPosition(txt_valor_compra.getText().length());
+            return;
+        }
+
+        try {
+            long valorLong = Long.parseLong(texto);
+            double valorDouble = valorLong / 100.0;
+            java.text.NumberFormat formato = java.text.NumberFormat.getCurrencyInstance(java.util.Locale.forLanguageTag("pt-BR"));
+            txt_valor_compra.setText(formato.format(valorDouble));
+            txt_valor_compra.setCaretPosition(txt_valor_compra.getText().length());
+        } catch (NumberFormatException e) {
+            // Ignora se ultrapassar o limite do tipo numérico
+        }
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -30,10 +100,15 @@ public class Compra extends javax.swing.JFrame {
 
         jComboBox1 = new javax.swing.JComboBox<>();
         lbl_comprar = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
-        bt_ethereum = new javax.swing.JButton();
-        bt_bitcoin1 = new javax.swing.JButton();
-        bt_ripple = new javax.swing.JButton();
+        lb_subcomprar = new javax.swing.JLabel();
+        ComBox_compra = new javax.swing.JComboBox<>();
+        lb_cotacao = new javax.swing.JLabel();
+        lb_valor_cotacao = new javax.swing.JLabel();
+        lb_cotacao1 = new javax.swing.JLabel();
+        lb_valor_cotacao1 = new javax.swing.JLabel();
+        txt_valor_compra = new javax.swing.JTextField();
+        lb_valor = new javax.swing.JLabel();
+        bt_compra = new javax.swing.JButton();
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
@@ -42,31 +117,57 @@ public class Compra extends javax.swing.JFrame {
 
         lbl_comprar.setBackground(new java.awt.Color(68, 5, 18));
         lbl_comprar.setFont(new java.awt.Font("PMingLiU-ExtB", 1, 24)); // NOI18N
-        lbl_comprar.setForeground(new java.awt.Color(247, 237, 221));
+        lbl_comprar.setForeground(new java.awt.Color(68, 5, 18));
         lbl_comprar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbl_comprar.setText("Comprar Criptoativo");
 
-        jLabel1.setFont(new java.awt.Font("PMingLiU-ExtB", 1, 14)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(68, 5, 18));
-        jLabel1.setText("Por favor, selecione a cripto moeda que deseja comprar:");
+        lb_subcomprar.setFont(new java.awt.Font("PMingLiU-ExtB", 1, 18)); // NOI18N
+        lb_subcomprar.setForeground(new java.awt.Color(68, 5, 18));
+        lb_subcomprar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lb_subcomprar.setText("Selecione a cripto moeda que deseja comprar:");
 
-        bt_ethereum.setBackground(new java.awt.Color(68, 5, 18));
-        bt_ethereum.setFont(new java.awt.Font("PMingLiU-ExtB", 1, 18)); // NOI18N
-        bt_ethereum.setForeground(new java.awt.Color(247, 237, 221));
-        bt_ethereum.setText("Ethereum (ETH)");
-        bt_ethereum.addActionListener(this::bt_ethereumActionPerformed);
+        ComBox_compra.setFont(new java.awt.Font("PMingLiU-ExtB", 1, 18)); // NOI18N
+        ComBox_compra.setForeground(new java.awt.Color(68, 5, 18));
+        ComBox_compra.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Bitcoin", "Ethereum", "Ripple" }));
+        ComBox_compra.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(68, 5, 18)));
+        ComBox_compra.addActionListener(this::ComBox_compraActionPerformed);
 
-        bt_bitcoin1.setBackground(new java.awt.Color(68, 5, 18));
-        bt_bitcoin1.setFont(new java.awt.Font("PMingLiU-ExtB", 1, 18)); // NOI18N
-        bt_bitcoin1.setForeground(new java.awt.Color(247, 237, 221));
-        bt_bitcoin1.setText("Bitcoin (BTC)");
-        bt_bitcoin1.addActionListener(this::bt_bitcoin1ActionPerformed);
+        lb_cotacao.setFont(new java.awt.Font("PMingLiU-ExtB", 1, 14)); // NOI18N
+        lb_cotacao.setForeground(new java.awt.Color(68, 5, 18));
+        lb_cotacao.setText("Cotação Atual:");
 
-        bt_ripple.setBackground(new java.awt.Color(68, 5, 18));
-        bt_ripple.setFont(new java.awt.Font("PMingLiU-ExtB", 1, 18)); // NOI18N
-        bt_ripple.setForeground(new java.awt.Color(247, 237, 221));
-        bt_ripple.setText("Ripple (XRP)");
-        bt_ripple.addActionListener(this::bt_rippleActionPerformed);
+        lb_valor_cotacao.setBackground(new java.awt.Color(247, 237, 221));
+        lb_valor_cotacao.setFont(new java.awt.Font("PMingLiU-ExtB", 0, 18)); // NOI18N
+        lb_valor_cotacao.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lb_valor_cotacao.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(68, 5, 18)));
+
+        lb_cotacao1.setFont(new java.awt.Font("PMingLiU-ExtB", 1, 18)); // NOI18N
+        lb_cotacao1.setForeground(new java.awt.Color(68, 5, 18));
+        lb_cotacao1.setText("Saldo em Reais:");
+
+        lb_valor_cotacao1.setBackground(new java.awt.Color(247, 237, 221));
+        lb_valor_cotacao1.setFont(new java.awt.Font("PMingLiU-ExtB", 0, 18)); // NOI18N
+        lb_valor_cotacao1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lb_valor_cotacao1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(68, 5, 18)));
+
+        txt_valor_compra.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        txt_valor_compra.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(68, 5, 18)));
+        txt_valor_compra.addActionListener(this::txt_valor_compraActionPerformed);
+        txt_valor_compra.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txt_valor_compraKeyReleased(evt);
+            }
+        });
+
+        lb_valor.setFont(new java.awt.Font("PMingLiU-ExtB", 1, 18)); // NOI18N
+        lb_valor.setForeground(new java.awt.Color(68, 5, 18));
+        lb_valor.setText("Valor da Compra:");
+
+        bt_compra.setBackground(new java.awt.Color(68, 5, 18));
+        bt_compra.setFont(new java.awt.Font("PMingLiU-ExtB", 1, 18)); // NOI18N
+        bt_compra.setForeground(new java.awt.Color(247, 237, 221));
+        bt_compra.setText("Confirmar Compra");
+        bt_compra.addActionListener(this::bt_compraActionPerformed);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -74,85 +175,129 @@ public class Compra extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(lbl_comprar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(bt_ripple, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(bt_ethereum, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(92, 92, 92))
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(ComBox_compra, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(91, 91, 91))
             .addGroup(layout.createSequentialGroup()
-                .addGap(23, 23, 23)
-                .addComponent(jLabel1)
-                .addContainerGap(22, Short.MAX_VALUE))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                    .addContainerGap(98, Short.MAX_VALUE)
-                    .addComponent(bt_bitcoin1, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(91, 91, 91)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(131, 131, 131)
+                        .addComponent(lb_valor_cotacao1, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(174, 174, 174)
+                        .addComponent(lb_cotacao))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(156, 156, 156)
+                        .addComponent(lb_cotacao1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(132, 132, 132)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(txt_valor_compra, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(bt_compra, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                    .addComponent(lb_valor)
+                                    .addGap(18, 18, 18)))
+                            .addComponent(lb_valor_cotacao, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(48, 48, 48)
+                        .addComponent(lb_subcomprar)))
+                .addContainerGap(56, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(lbl_comprar, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel1)
-                .addGap(78, 78, 78)
-                .addComponent(bt_ethereum, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lb_cotacao1)
+                .addGap(8, 8, 8)
+                .addComponent(lb_valor_cotacao1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(bt_ripple, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 29, Short.MAX_VALUE))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(95, 95, 95)
-                    .addComponent(bt_bitcoin1, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(157, Short.MAX_VALUE)))
+                .addComponent(lb_subcomprar)
+                .addGap(27, 27, 27)
+                .addComponent(ComBox_compra, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lb_cotacao)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lb_valor_cotacao, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(lb_valor)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(txt_valor_compra, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(28, 28, 28)
+                .addComponent(bt_compra, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 32, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void bt_ethereumActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_ethereumActionPerformed
+    private void txt_valor_compraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_valor_compraActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_bt_ethereumActionPerformed
+    }//GEN-LAST:event_txt_valor_compraActionPerformed
 
-    private void bt_bitcoin1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_bitcoin1ActionPerformed
+    private void bt_compraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_compraActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_bt_bitcoin1ActionPerformed
-
-    private void bt_rippleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_rippleActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_bt_rippleActionPerformed
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
+            // Extrai apenas os números do texto formatado (ex: "R$ 30,00" vira "3000")
+            String numeros = txt_valor_compra.getText().replaceAll("[^0-9]", "");
+            
+            if (numeros.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Insira o valor que deseja gastar na compra!", "Aviso", JOptionPane.WARNING_MESSAGE);
+                return;
             }
-        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
-            logger.log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new Compra().setVisible(true));
-    }
+            // Converte para double dividindo por 100 para obter o valor real com cêntimos
+            double valorGasto = Double.parseDouble(numeros) / 100.0;
+            String nomeMoeda = (String) ComBox_compra.getSelectedItem();
+            String siglaMoeda = "";
+            double cotacaoAtual = 0.0;
+
+            switch (nomeMoeda) {
+                case "Bitcoin": siglaMoeda = "BTC"; cotacaoAtual = 350000.00; break;
+                case "Ethereum": siglaMoeda = "ETH"; cotacaoAtual = 18000.00; break;
+                case "Ripple": siglaMoeda = "XRP"; cotacaoAtual = 3.50; break;
+            }
+
+            controller.ControleCompra controle = new controller.ControleCompra(investidor);
+            boolean sucesso = controle.realizarCompra(siglaMoeda, valorGasto, cotacaoAtual);
+
+            if (sucesso) {
+                JOptionPane.showMessageDialog(this, "Compra efetuada com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                lb_valor_cotacao1.setText(formatoMoeda.format(investidor.getSaldoReais()));
+                txt_valor_compra.setText("");
+            } else {
+                JOptionPane.showMessageDialog(this, "Saldo insuficiente em Reais ou valor inválido!", "Erro", JOptionPane.ERROR_MESSAGE);
+            }
+
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Por favor, insira um valor numérico válido!", "Erro", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_bt_compraActionPerformed
+
+    private void ComBox_compraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComBox_compraActionPerformed
+        // TODO add your handling code here:
+        atualizarCotacao();
+    }//GEN-LAST:event_ComBox_compraActionPerformed
+
+    private void txt_valor_compraKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_valor_compraKeyReleased
+        // TODO add your handling code here:
+        formatarCampoMoedaAoDigitar(evt);
+
+    }//GEN-LAST:event_txt_valor_compraKeyReleased
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton bt_bitcoin1;
-    private javax.swing.JButton bt_ethereum;
-    private javax.swing.JButton bt_ripple;
+    private javax.swing.JComboBox<String> ComBox_compra;
+    private javax.swing.JButton bt_compra;
     private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel lb_cotacao;
+    private javax.swing.JLabel lb_cotacao1;
+    private javax.swing.JLabel lb_subcomprar;
+    private javax.swing.JLabel lb_valor;
+    private javax.swing.JLabel lb_valor_cotacao;
+    private javax.swing.JLabel lb_valor_cotacao1;
     private javax.swing.JLabel lbl_comprar;
+    private javax.swing.JTextField txt_valor_compra;
     // End of variables declaration//GEN-END:variables
 }

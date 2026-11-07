@@ -17,9 +17,82 @@ public class Deposito extends javax.swing.JFrame {
      */
     public Deposito() {
         initComponents();
-        getContentPane().setBackground(new java.awt.Color(68, 5, 18));
+        getContentPane().setBackground(new java.awt.Color(244, 239, 234));
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE); // Ajustado para não fechar a aplicação toda
+        
+        txt_deposito.setForeground(java.awt.Color.GRAY);
+        txt_deposito.setText("R$ 0,00");
+
+        txt_deposito.addFocusListener(new java.awt.event.FocusAdapter() {
+            @Override
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                if (txt_deposito.getText().equals("R$ 0,00")) {
+                    txt_deposito.setText("");
+                    txt_deposito.setForeground(java.awt.Color.BLACK);
+                }
+            }
+
+            @Override
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                if (txt_deposito.getText().isEmpty()) {
+                    txt_deposito.setForeground(java.awt.Color.GRAY);
+                    txt_deposito.setText("R$ 0,00");
+                }
+            }
+        });
+        
+        txt_deposito.addKeyListener(new java.awt.event.KeyAdapter() {
+        private String digits = "";
+
+        @Override
+        public void keyTyped(java.awt.event.KeyEvent evt) {
+            char c = evt.getKeyChar();
+            
+            // Se for backspace (apagar), remove o último dígito
+            if (c == '\b' && !digits.isEmpty()) {
+                digits = digits.substring(0, digits.length() - 1);
+            } else if (Character.isDigit(c)) {
+                digits += c; // Adiciona o novo número digitado
+            }
+            
+            // Impede o comportamento padrão para gerirmos nós o texto
+            evt.consume();
+
+            if (digits.isEmpty()) {
+                txt_deposito.setText("R$ 0,00");
+                return;
+            }
+
+            // Converte os dígitos acumulados para formato monetário
+            try {
+                long valorLong = Long.parseLong(digits);
+                double valorDouble = valorLong / 100.0;
+                txt_deposito.setText(String.format("R$ %,.2f", valorDouble));
+            } catch (NumberFormatException e) {
+                digits = "";
+                txt_deposito.setText("R$ 0,00");
+            }
+        }
+    });
     }
 
+
+    // ==========================================
+    // MÉTODOS GETTERS ADICIONADOS PARA O CONTROLLER
+    // ==========================================
+    public String getValorDigitado() {
+        return txt_deposito.getText();
+    }
+
+    public javax.swing.JButton getBt_deposito() {
+        return bt_deposito;
+    }
+
+    public javax.swing.JButton getBt_voltar() {
+        return bt_voltar;
+    }
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -29,68 +102,71 @@ public class Deposito extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        lbl_senha2 = new javax.swing.JLabel();
-        txt_senha = new javax.swing.JTextField();
-        bt_senha = new javax.swing.JButton();
-        lbl_senha3 = new javax.swing.JLabel();
-        lbl_senha = new javax.swing.JLabel();
+        lbl_dpsto = new javax.swing.JLabel();
+        txt_deposito = new javax.swing.JTextField();
+        bt_deposito = new javax.swing.JButton();
+        lbl_dpst = new javax.swing.JLabel();
+        lbl_deposito = new javax.swing.JLabel();
         bt_voltar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        lbl_senha2.setFont(new java.awt.Font("PMingLiU-ExtB", 1, 18)); // NOI18N
-        lbl_senha2.setForeground(new java.awt.Color(68, 5, 18));
-        lbl_senha2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lbl_senha2.setText("Por favor, digite o valor que");
+        lbl_dpsto.setFont(new java.awt.Font("PMingLiU-ExtB", 1, 18)); // NOI18N
+        lbl_dpsto.setForeground(new java.awt.Color(68, 5, 18));
+        lbl_dpsto.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbl_dpsto.setText("Por favor, digite o valor que");
 
-        txt_senha.addActionListener(this::txt_senhaActionPerformed);
+        txt_deposito.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        txt_deposito.addActionListener(this::txt_depositoActionPerformed);
 
-        bt_senha.setBackground(new java.awt.Color(68, 5, 18));
-        bt_senha.setFont(new java.awt.Font("PMingLiU-ExtB", 1, 18)); // NOI18N
-        bt_senha.setForeground(new java.awt.Color(247, 237, 221));
-        bt_senha.setText("Confirmar Depósito");
-        bt_senha.addActionListener(this::bt_senhaActionPerformed);
+        bt_deposito.setBackground(new java.awt.Color(68, 5, 18));
+        bt_deposito.setFont(new java.awt.Font("PMingLiU-ExtB", 1, 18)); // NOI18N
+        bt_deposito.setForeground(new java.awt.Color(247, 237, 221));
+        bt_deposito.setText("Confirmar Depósito");
+        bt_deposito.addActionListener(this::bt_depositoActionPerformed);
 
-        lbl_senha3.setFont(new java.awt.Font("PMingLiU-ExtB", 1, 18)); // NOI18N
-        lbl_senha3.setForeground(new java.awt.Color(68, 5, 18));
-        lbl_senha3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lbl_senha3.setText("deseja depositar em Reais:");
+        lbl_dpst.setFont(new java.awt.Font("PMingLiU-ExtB", 1, 18)); // NOI18N
+        lbl_dpst.setForeground(new java.awt.Color(68, 5, 18));
+        lbl_dpst.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbl_dpst.setText("deseja depositar em Reais:");
 
-        lbl_senha.setBackground(new java.awt.Color(68, 5, 18));
-        lbl_senha.setFont(new java.awt.Font("PMingLiU-ExtB", 1, 24)); // NOI18N
-        lbl_senha.setForeground(new java.awt.Color(68, 5, 18));
-        lbl_senha.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lbl_senha.setText("Depósito em Reais");
+        lbl_deposito.setBackground(new java.awt.Color(68, 5, 18));
+        lbl_deposito.setFont(new java.awt.Font("PMingLiU-ExtB", 1, 24)); // NOI18N
+        lbl_deposito.setForeground(new java.awt.Color(68, 5, 18));
+        lbl_deposito.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbl_deposito.setText("Depósito em Reais");
 
-        bt_voltar.setBackground(new java.awt.Color(247, 237, 221));
-        bt_voltar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/icones/seta-esquerda (2).png"))); // NOI18N
+        bt_voltar.setBackground(new java.awt.Color(244, 239, 234));
+        bt_voltar.setFont(new java.awt.Font("PMingLiU-ExtB", 1, 18)); // NOI18N
+        bt_voltar.setForeground(new java.awt.Color(68, 5, 18));
+        bt_voltar.setText("X");
         bt_voltar.setBorder(null);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(lbl_senha2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(lbl_dpsto, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(txt_senha, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txt_deposito, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(77, 77, 77))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(bt_voltar, javax.swing.GroupLayout.DEFAULT_SIZE, 59, Short.MAX_VALUE)
                         .addGap(18, 18, 18)
-                        .addComponent(lbl_senha, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lbl_deposito, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(91, 91, 91))))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(89, 89, 89)
-                        .addComponent(lbl_senha3))
+                        .addComponent(lbl_dpst))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(98, 98, 98)
-                        .addComponent(bt_senha)))
+                        .addComponent(bt_deposito)))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -98,29 +174,29 @@ public class Deposito extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(10, 10, 10)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(lbl_senha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lbl_deposito, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(bt_voltar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(30, 30, 30)
-                .addComponent(lbl_senha2)
+                .addComponent(lbl_dpsto)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lbl_senha3)
+                .addComponent(lbl_dpst)
                 .addGap(27, 27, 27)
-                .addComponent(txt_senha, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txt_deposito, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(33, 33, 33)
-                .addComponent(bt_senha, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(bt_deposito, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(41, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txt_senhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_senhaActionPerformed
+    private void txt_depositoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_depositoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txt_senhaActionPerformed
+    }//GEN-LAST:event_txt_depositoActionPerformed
 
-    private void bt_senhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_senhaActionPerformed
+    private void bt_depositoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_depositoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_bt_senhaActionPerformed
+    }//GEN-LAST:event_bt_depositoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -148,11 +224,11 @@ public class Deposito extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton bt_senha;
+    private javax.swing.JButton bt_deposito;
     private javax.swing.JButton bt_voltar;
-    private javax.swing.JLabel lbl_senha;
-    private javax.swing.JLabel lbl_senha2;
-    private javax.swing.JLabel lbl_senha3;
-    private javax.swing.JTextField txt_senha;
+    private javax.swing.JLabel lbl_deposito;
+    private javax.swing.JLabel lbl_dpst;
+    private javax.swing.JLabel lbl_dpsto;
+    private javax.swing.JTextField txt_deposito;
     // End of variables declaration//GEN-END:variables
 }

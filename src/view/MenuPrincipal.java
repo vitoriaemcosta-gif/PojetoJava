@@ -22,6 +22,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
      */
     public MenuPrincipal() {
         initComponents();
+        setLocationRelativeTo(null);
         getContentPane().setBackground(new java.awt.Color(244, 239, 234));
 
     }

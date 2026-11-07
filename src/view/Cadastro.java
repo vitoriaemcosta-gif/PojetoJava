@@ -152,10 +152,10 @@ public class Cadastro extends javax.swing.JFrame {
         lbl_cadcpf.setForeground(new java.awt.Color(68, 5, 18));
         lbl_cadcpf.setText("CPF:");
 
-        txt_cadcpf.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txt_cadcpf.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         txt_cadcpf.addActionListener(this::txt_cadcpfActionPerformed);
 
-        txt_cademail.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txt_cademail.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         txt_cademail.addActionListener(this::txt_cademailActionPerformed);
 
         lbl_cademail.setFont(new java.awt.Font("PMingLiU-ExtB", 1, 18)); // NOI18N
@@ -166,7 +166,7 @@ public class Cadastro extends javax.swing.JFrame {
         lbl_cadsenha.setForeground(new java.awt.Color(68, 5, 18));
         lbl_cadsenha.setText("Senha:");
 
-        txt_cadsenha.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txt_cadsenha.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         txt_cadsenha.addActionListener(this::txt_cadsenhaActionPerformed);
 
         bt_cadastrar.setBackground(new java.awt.Color(68, 5, 18));
@@ -175,7 +175,7 @@ public class Cadastro extends javax.swing.JFrame {
         bt_cadastrar.setText("Cadastrar");
         bt_cadastrar.addActionListener(this::bt_cadastrarActionPerformed);
 
-        txt_cadnome.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txt_cadnome.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 
         lbl_cadnome.setFont(new java.awt.Font("PMingLiU-ExtB", 1, 18)); // NOI18N
         lbl_cadnome.setForeground(new java.awt.Color(68, 5, 18));
