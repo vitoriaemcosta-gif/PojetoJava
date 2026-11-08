@@ -38,15 +38,15 @@ public class ControleCompra {
         switch (tipoMoeda.toUpperCase()) {
             case "BTC":
                 Bitcoin btc = new Bitcoin(cotacaoAtual);
-                taxa = btc.calculaTaxaCompra(valorReaisGasto); // 2% de taxa para Bitcoin[cite: 9]
+                taxa = btc.calculaTaxaCompra(valorReaisGasto);
                 break;
             case "ETH":
                 Ethereum eth = new Ethereum(cotacaoAtual);
-                taxa = eth.calculaTaxaCompra(valorReaisGasto); // 1% de taxa para Ethereum[cite: 9]
+                taxa = eth.calculaTaxaCompra(valorReaisGasto);
                 break;
             case "XRP":
                 Ripple xrp = new Ripple(cotacaoAtual);
-                taxa = xrp.calculaTaxaCompra(valorReaisGasto); // 1% de taxa para Ripple[cite: 9]
+                taxa = xrp.calculaTaxaCompra(valorReaisGasto);
                 break;
             default:
                 return false;
@@ -79,7 +79,27 @@ public class ControleCompra {
         }
 
         // Persiste as alterações no banco de dados PostgreSQL
-        return atualizarSaldosNoBanco();
+        boolean atualizado = atualizarSaldosNoBanco();
+
+        if (atualizado) {
+            // Regista a transação na tabela transacao após o sucesso da compra
+            String dataHoraAtual = java.time.LocalDateTime.now().format(java.time.format.DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm"));
+            ControleTransacao ctrlTransacao = new ControleTransacao();
+            ctrlTransacao.registrarTransacao(
+                investidor.getCpf(),
+                dataHoraAtual,
+                "+", // Indica entrada/compra
+                tipoMoeda.toUpperCase(),
+                valorReaisGasto,
+                taxa,
+                investidor.getSaldoReais(),
+                investidor.getSaldoBtc(),
+                investidor.getSaldoEth(),
+                investidor.getSaldoXrp()
+            );
+        }
+
+        return atualizado;
     }
 
     private boolean atualizarSaldosNoBanco() {

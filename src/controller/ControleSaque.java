@@ -1,3 +1,7 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package controller;
 
 import dao.Conexao;
@@ -25,13 +29,36 @@ public class ControleSaque {
         investidor.setSaldoReais(novoSaldo);
 
         // Atualiza os dados na base de dados PostgreSQL
-        return atualizarSaldoNoBanco();
+        boolean atualizado = atualizarSaldoNoBanco();
+
+        if (atualizado) {
+            // Regista a transação na tabela transacao após o sucesso do saque
+            String dataHoraAtual = java.time.LocalDateTime.now().
+                    format(java.time.format.DateTimeFormatter.ofPattern
+                    ("dd-MM-yyyy HH:mm"));
+            ControleTransacao ctrlTransacao = new ControleTransacao();
+            ctrlTransacao.registrarTransacao(
+                investidor.getCpf(),
+                dataHoraAtual,
+                "-", // Indica saída/saque
+                "REAL",
+                valor,
+                0.0, // Sem taxa para saque
+                investidor.getSaldoReais(),
+                investidor.getSaldoBtc(),
+                investidor.getSaldoEth(),
+                investidor.getSaldoXrp()
+            );
+        }
+
+        return atualizado;
     }
 
     // Comunicação com o banco de dados
     private boolean atualizarSaldoNoBanco() {
         Conexao conexao = new Conexao();
-        String sql = "UPDATE investidor SET saldo_reais = ?, saldo_btc = ?, saldo_eth = ?, saldo_xrp = ? WHERE cpf = ?";
+        String sql = "UPDATE investidor SET saldo_reais = ?, saldo_btc = ?, "
+                + "saldo_eth = ?, saldo_xrp = ? WHERE cpf = ?";
         
         try (Connection conn = conexao.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {

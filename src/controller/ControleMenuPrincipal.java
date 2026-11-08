@@ -6,18 +6,9 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import model.Investidor;
-import view.MenuPrincipal;
-import view.Login;
+import view.*;
 import dao.Conexao;
-import view.SaldoBitcoin;
-import view.SaldoReais;
-import view.SaldoRipple;
-import view.SaldoEthereum;
-import view.Senha;
-import view.Deposito;
-import view.Saque;
-import view.Cotacao;
-import view.Compra;
+
 
 public class ControleMenuPrincipal {
     
@@ -41,6 +32,7 @@ public class ControleMenuPrincipal {
     public void carregarSaldos() {
         tela.getLbl_saldo().setText(String.format("R$ %.2f", investidorLogado.getSaldoReais()));
     }
+    
     public void consultarSaldoReais() {
          // Instancia a sua view personalizada de senha
         Senha telaSenha = new Senha();
@@ -222,7 +214,6 @@ public class ControleMenuPrincipal {
             telaSaque.setVisible(true);
         }
 
-
     public void comprar() {
             Senha telaSenha = new Senha();
             telaSenha.setLocationRelativeTo(tela);
@@ -246,68 +237,45 @@ public class ControleMenuPrincipal {
     }
     
     public void vender() {
-        String senha = JOptionPane.showInputDialog(tela, "Digite sua senha de 6 dígitos para vender:", "Segurança", JOptionPane.QUESTION_MESSAGE);
-        if (senha != null) {
-            if (!senha.equals(investidorLogado.getSenha())) {
-                JOptionPane.showMessageDialog(tela, "Senha incorreta!", "Erro", JOptionPane.ERROR_MESSAGE);
-                return;
+        Senha telaSenha = new Senha();
+        telaSenha.setLocationRelativeTo(tela);
+        
+        telaSenha.getBt_senha().addActionListener(e -> {
+            String senhaDigitada = telaSenha.getSenhaDigitada();
+            
+            if (senhaDigitada.equals(investidorLogado.getSenha())) {
+                telaSenha.dispose();
+                
+                Vender telaVenda = new Vender(investidorLogado);
+                telaVenda.setLocationRelativeTo(tela);
+                telaVenda.setVisible(true);
+            } else {
+                JOptionPane.showMessageDialog(telaSenha, "Senha incorreta!", "Erro", JOptionPane.ERROR_MESSAGE);
             }
-
-            String[] opcoesMoedas = {"Bitcoin (BTC)", "Ethereum (ETH)", "Ripple (XRP)"};
-            int escolha = JOptionPane.showOptionDialog(
-                tela, "Selecione a criptomoeda que deseja vender:", "Venda de Criptoativo",
-                JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null, opcoesMoedas, opcoesMoedas[0]
-            );
-
-            if (escolha == JOptionPane.CLOSED_OPTION) return;
-
-            double saldoDisponivel = (escolha == 0) ? investidorLogado.getSaldoBtc() : (escolha == 1) ? investidorLogado.getSaldoEth() : investidorLogado.getSaldoXrp();
-            String qtdStr = JOptionPane.showInputDialog(tela, String.format("Saldo disponível: %.4f\nQuanto deseja vender?", saldoDisponivel));
-
-            if (qtdStr != null && !qtdStr.isEmpty()) {
-                try {
-                    double qtdVenda = Double.parseDouble(qtdStr);
-                    if (qtdVenda <= 0 || qtdVenda > saldoDisponivel) {
-                        JOptionPane.showMessageDialog(tela, "Quantidade inválida ou superior ao saldo disponível!", "Erro", JOptionPane.ERROR_MESSAGE);
-                        return;
-                    }
-
-                    double taxa = 0;
-                    double cotacao = 0;
-
-                    if (escolha == 0) { taxa = 0.03; cotacao = cotacaoBtc; } // BTC: 3%
-                    else if (escolha == 1) { taxa = 0.02; cotacao = cotacaoEth; } // ETH: 2%
-                    else if (escolha == 2) { taxa = 0.01; cotacao = cotacaoXrp; } // XRP: 1%
-
-                    double valorBruto = qtdVenda * cotacao;
-                    double valorTaxa = valorBruto * taxa;
-                    double valorLiquido = valorBruto - valorTaxa;
-
-                    if (escolha == 0) investidorLogado.setSaldoBtc(investidorLogado.getSaldoBtc() - qtdVenda);
-                    else if (escolha == 1) investidorLogado.setSaldoEth(investidorLogado.getSaldoEth() - qtdVenda);
-                    else if (escolha == 2) investidorLogado.setSaldoXrp(investidorLogado.getSaldoXrp() - qtdVenda);
-
-                    investidorLogado.setSaldoReais(investidorLogado.getSaldoReais() + valorLiquido);
-
-                    atualizarSaldosNoBanco();
-                    carregarSaldos();
-                    JOptionPane.showMessageDialog(tela, String.format("Venda realizada com sucesso!\nValor líquido em Reais: R$ %.2f\nTaxa cobrada: R$ %.2f", valorLiquido, valorTaxa));
-                } catch (NumberFormatException e) {
-                    JOptionPane.showMessageDialog(tela, "Por favor, digite um número válido!", "Erro", JOptionPane.ERROR_MESSAGE);
-                }
-            }
-        }
+        });
+        telaSenha.setVisible(true);
     }
 
     public void extrato() {
-        String senha = JOptionPane.showInputDialog(tela, "Digite sua senha de 6 dígitos para ver o extrato:", "Segurança", JOptionPane.QUESTION_MESSAGE);
-        if (senha != null && senha.equals(investidorLogado.getSenha())) {
-            JOptionPane.showMessageDialog(tela, "Exibindo extrato de operações...");
-        } else if (senha != null) {
-            JOptionPane.showMessageDialog(tela, "Senha incorreta!", "Erro", JOptionPane.ERROR_MESSAGE);
-        }
+        Senha telaSenha = new Senha();
+        telaSenha.setLocationRelativeTo(tela);
+        
+        telaSenha.getBt_senha().addActionListener(e -> {
+            String senhaDigitada = telaSenha.getSenhaDigitada();
+            
+            if (senhaDigitada.equals(investidorLogado.getSenha())) {
+                telaSenha.dispose();
+                
+                Extrato telaExtrato = new Extrato(investidorLogado);
+                telaExtrato.setLocationRelativeTo(tela);
+                telaExtrato.setVisible(true);
+            } else {
+                JOptionPane.showMessageDialog(telaSenha, "Senha incorreta!", "Erro", JOptionPane.ERROR_MESSAGE);
+            }
+        });
+        telaSenha.setVisible(true);
     }
-
+    
 public void atualizarCotacao() {
     // Atualiza as cotações aleatoriamente
     cotacaoBtc *= (1 + (Math.random() * 0.10 - 0.05));

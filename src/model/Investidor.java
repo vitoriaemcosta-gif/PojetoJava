@@ -2,51 +2,58 @@ package model;
 
 public class Investidor extends Pessoa {
     
-    private double saldoReais;
-    private double saldoBtc;
-    private double saldoEth;
-    private double saldoXrp;
+    private Carteira carteira;
 
     // Construtor vazio
     public Investidor() {
         super();
+        this.carteira = new Carteira();
     }
 
     // Construtor com parâmetros utilizando o super para os dados da Pessoa
     public Investidor(String cpf, String senha, String nome, String email) {
         super(cpf, senha, nome, email);
+        this.carteira = new Carteira();
     }
 
-    // Getters e Setters dos Saldos
+    public Carteira getCarteira() {
+        return carteira;
+    }
+
+    public void setCarteira(Carteira carteira) {
+        this.carteira = carteira;
+    }
+
+    // Atalhos úteis para manter compatibilidade direta com os controladores atuais
     public double getSaldoReais() {
-        return saldoReais;
+        return carteira.getSaldoReais();
     }
 
     public void setSaldoReais(double saldoReais) {
-        this.saldoReais = saldoReais;
+        carteira.setSaldoReais(saldoReais);
     }
 
     public double getSaldoBtc() {
-        return saldoBtc;
+        return carteira.getSaldoBtc();
     }
 
     public void setSaldoBtc(double saldoBtc) {
-        this.saldoBtc = saldoBtc;
+        carteira.setSaldoBtc(saldoBtc);
     }
 
     public double getSaldoEth() {
-        return saldoEth;
+        return carteira.getSaldoEth();
     }
 
     public void setSaldoEth(double saldoEth) {
-        this.saldoEth = saldoEth;
+        carteira.setSaldoEth(saldoEth);
     }
 
     public double getSaldoXrp() {
-        return saldoXrp;
+        return carteira.getSaldoXrp();
     }
 
     public void setSaldoXrp(double saldoXrp) {
-        this.saldoXrp = saldoXrp;
+        carteira.setSaldoXrp(saldoXrp);
     }
 }

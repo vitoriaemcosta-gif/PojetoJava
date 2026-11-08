@@ -25,13 +25,36 @@ public class ControleDeposito {
         investidor.setSaldoReais(novoSaldo);
 
         // Atualiza os dados na base de dados PostgreSQL
-        return atualizarSaldoNoBanco();
+        boolean atualizado = atualizarSaldoNoBanco();
+
+        if (atualizado) {
+            // Regista a transação na tabela transacao após o sucesso do depósito
+            String dataHoraAtual = java.time.LocalDateTime.now().
+                    format(java.time.format.DateTimeFormatter.ofPattern
+                    ("dd-MM-yyyy HH:mm"));
+            ControleTransacao ctrlTransacao = new ControleTransacao();
+            ctrlTransacao.registrarTransacao(
+                investidor.getCpf(),
+                dataHoraAtual,
+                "+", // Indica entrada/depósito
+                "REAL",
+                valor,
+                0.0, // Sem taxa para depósito
+                investidor.getSaldoReais(),
+                investidor.getSaldoBtc(),
+                investidor.getSaldoEth(),
+                investidor.getSaldoXrp()
+            );
+        }
+
+        return atualizado;
     }
 
     // Comunicação com o banco de dados
     private boolean atualizarSaldoNoBanco() {
         Conexao conexao = new Conexao();
-        String sql = "UPDATE investidor SET saldo_reais = ?, saldo_btc = ?, saldo_eth = ?, saldo_xrp = ? WHERE cpf = ?";
+        String sql = "UPDATE investidor SET saldo_reais = ?, saldo_btc = ?, "
+                + "saldo_eth = ?, saldo_xrp = ? WHERE cpf = ?";
         
         try (Connection conn = conexao.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {

@@ -10,7 +10,8 @@ package view;
  */
 public class Senha extends javax.swing.JFrame {
     
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Senha.class.getName());
+    private static final java.util.logging.Logger logger = 
+            java.util.logging.Logger.getLogger(Senha.class.getName());
 
     /**
      * Creates new form Vender
@@ -58,6 +59,8 @@ public class Senha extends javax.swing.JFrame {
         lbl_senha2.setForeground(new java.awt.Color(68, 5, 18));
         lbl_senha2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbl_senha2.setText("Por favor, digite sua senha de 6");
+
+        txt_senha.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 
         bt_senha.setBackground(new java.awt.Color(68, 5, 18));
         bt_senha.setFont(new java.awt.Font("PMingLiU-ExtB", 1, 18)); // NOI18N
@@ -108,31 +111,6 @@ public class Senha extends javax.swing.JFrame {
     private void bt_senhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_senhaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_bt_senhaActionPerformed
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
-            logger.log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new Senha().setVisible(true));
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bt_senha;

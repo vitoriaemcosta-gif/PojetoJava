@@ -10,7 +10,8 @@ import model.Investidor;
  */
 public class SaldoRipple extends javax.swing.JFrame {
     
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(SaldoRipple.class.getName());
+    private static final java.util.logging.Logger logger = 
+            java.util.logging.Logger.getLogger(SaldoRipple.class.getName());
 
     /**
      * Creates new form SaldoRipple
@@ -29,7 +30,8 @@ public class SaldoRipple extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         // Calcula e exibe o saldo de Ripple formatado
         txt_ripple.setText(String.format("%.4f XRP", investidor.getSaldoXrp()));
-        // Calcula e exibe o valor convertido em Reais na label correspondente (ex: lbl_saldo)
+        // Calcula e exibe o valor convertido em Reais na label correspondente 
+        //(ex: lbl_saldo)
         double valorEmReais = investidor.getSaldoXrp() * cotacaoXrp;
         txt_ripple_conversao.setText(String.format("R$ %.2f", valorEmReais));
     }
@@ -126,30 +128,7 @@ public class SaldoRipple extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_bt_voltarActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
-            logger.log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new SaldoRipple().setVisible(true));
-    }
+ 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bt_voltar;

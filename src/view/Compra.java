@@ -109,6 +109,7 @@ public class Compra extends javax.swing.JFrame {
         txt_valor_compra = new javax.swing.JTextField();
         lb_valor = new javax.swing.JLabel();
         bt_compra = new javax.swing.JButton();
+        bt_voltar = new javax.swing.JButton();
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
@@ -169,15 +170,17 @@ public class Compra extends javax.swing.JFrame {
         bt_compra.setText("Confirmar Compra");
         bt_compra.addActionListener(this::bt_compraActionPerformed);
 
+        bt_voltar.setBackground(new java.awt.Color(244, 239, 234));
+        bt_voltar.setFont(new java.awt.Font("PMingLiU-ExtB", 1, 18)); // NOI18N
+        bt_voltar.setForeground(new java.awt.Color(68, 5, 18));
+        bt_voltar.setText("X");
+        bt_voltar.setBorder(null);
+        bt_voltar.addActionListener(this::bt_voltarActionPerformed);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(lbl_comprar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(ComBox_compra, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(91, 91, 91))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -202,12 +205,25 @@ public class Compra extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(48, 48, 48)
                         .addComponent(lb_subcomprar)))
-                .addContainerGap(56, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(11, 11, 11)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(ComBox_compra, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(91, 91, 91))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(bt_voltar, javax.swing.GroupLayout.DEFAULT_SIZE, 59, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lbl_comprar, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(68, 68, 68))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(lbl_comprar, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lbl_comprar, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(bt_voltar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lb_cotacao1)
                 .addGap(8, 8, 8)
@@ -263,9 +279,9 @@ public class Compra extends javax.swing.JFrame {
             boolean sucesso = controle.realizarCompra(siglaMoeda, valorGasto, cotacaoAtual);
 
             if (sucesso) {
-                JOptionPane.showMessageDialog(this, "Compra efetuada com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-                lb_valor_cotacao1.setText(formatoMoeda.format(investidor.getSaldoReais()));
-                txt_valor_compra.setText("");
+                Sucesso telaSucesso = new Sucesso(investidor);
+                telaSucesso.setLocationRelativeTo(this); // ou centralizada em relação à janela atual
+                telaSucesso.setVisible(true);
             } else {
                 JOptionPane.showMessageDialog(this, "Saldo insuficiente em Reais ou valor inválido!", "Erro", JOptionPane.ERROR_MESSAGE);
             }
@@ -286,10 +302,16 @@ public class Compra extends javax.swing.JFrame {
 
     }//GEN-LAST:event_txt_valor_compraKeyReleased
 
+    private void bt_voltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_voltarActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_bt_voltarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> ComBox_compra;
     private javax.swing.JButton bt_compra;
+    private javax.swing.JButton bt_voltar;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel lb_cotacao;
     private javax.swing.JLabel lb_cotacao1;
