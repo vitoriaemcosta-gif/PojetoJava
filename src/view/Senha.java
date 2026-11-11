@@ -10,6 +10,7 @@ package view;
  */
 public class Senha extends javax.swing.JFrame {
     
+    // Logger para registo de eventos da classe
     private static final java.util.logging.Logger logger = 
             java.util.logging.Logger.getLogger(Senha.class.getName());
 
@@ -18,15 +19,18 @@ public class Senha extends javax.swing.JFrame {
      */
     public Senha() {
         initComponents();
-        getContentPane().setBackground(new java.awt.Color(244, 239, 234));
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        getContentPane().setBackground(new java.awt.Color(244, 239, 234)); 
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE); 
 
     }
     
+    // Getter para obter a senha digitada pelo utilizador no campo de texto 
     public String getSenhaDigitada() {
         return txt_senha.getText();
     }
     
+    // Getter para expor o botão de confirmação de senha de modo a permitir 
+    //que o controlador adicione ouvintes de eventos (ActionListeners)
     public javax.swing.JButton getBt_senha() {
         return bt_senha;
     }

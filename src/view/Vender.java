@@ -16,33 +16,44 @@ import model.Investidor;
  */
 public class Vender extends javax.swing.JFrame {
     
+    // Logger para registo de eventos da classe
     private static final java.util.logging.Logger logger = 
             java.util.logging.Logger.getLogger(Vender.class.getName());
 
+    // Objeto do investidor autenticado que está a realizar a operação
     private Investidor investidor;
+    
+    // Configuração de localidade para o padrão brasileiro (pt-BR)
     private final Locale ptBr = Locale.forLanguageTag("pt-BR");
+    
+    // Formatador para valores monetários em Reais (R$)
     private final NumberFormat formatoMoeda = NumberFormat
             .getCurrencyInstance(ptBr);
     
     /**
      * Creates new form Vender
      */
+    // Construtor que inicializa a janela de venda recebendo o investidor logado
     public Vender(Investidor investidor) {
         this.investidor = investidor;
         initComponents();
-        getContentPane().setBackground(new java.awt.Color(244, 239, 234));
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setLocationRelativeTo(null);
+        getContentPane().setBackground(new java.awt.Color(244, 239, 234)); 
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE); 
+        setLocationRelativeTo(null); // Centraliza a janela no ecrã
         
         carregarDadosIniciais();
     }
 
+    // Carrega os dados iniciais da interface, exibindo o saldo atual em Reais 
+    //e atualizando as informações da criptomoeda
     private void carregarDadosIniciais() {
-        // Exibe o saldo em reais atual do investidor
+        // Exibe o saldo em reais atual do investidor formatado 
         lb_valor_reais.setText(formatoMoeda.format(investidor.getSaldoReais()));
         atualizarCotacao();
     }
     
+    // Atualiza os valores exibidos de acordo com a criptomoeda selecionada na 
+    //combobox
    private void atualizarCotacao() {
         String moedaSelecionada = (String) ComBox_compra.getSelectedItem();
         double cotacao = 0.0;
@@ -64,10 +75,13 @@ public class Vender extends javax.swing.JFrame {
                     break;
             }
         }
-        // Exibe o saldo da criptomoeda com 4 casas decimais em vez da cotação em Reais
+        // Exibe o saldo atual da criptomoeda selecionada com 4 casas decimais 
+        //na interface
         lb_valor_saldo.setText(String.format(Locale.US, "%.4f", saldoCrypto));
     }
     
+    // Formata o campo de texto da quantidade a vender à medida que o 
+   //utilizador digita, permitindo casas decimais finas
     private void formatarCampoMoedaAoDigitar(java.awt.event.KeyEvent evt) {
         String texto = txt_valor_venda.getText().replaceAll("[^0-9]", "");
         
@@ -78,13 +92,15 @@ public class Vender extends javax.swing.JFrame {
 
         try {
             long valorLong = Long.parseLong(texto);
-            double valorDouble = valorLong / 10000.0; // Para cripto, permite casas decimais mais finas
+            // Para criptoativos, divide por 10000 para permitir frações 
+            //decimais mais finas
+            double valorDouble = valorLong / 10000.0; 
             txt_valor_venda.setText(String.format(Locale.US, "%.4f", 
                     valorDouble));
             txt_valor_venda.setCaretPosition(txt_valor_venda.getText()
                     .length());
         } catch (NumberFormatException e) {
-            // Ignora excesso de tamanho
+            // Ignora excesso de tamanho numérico
         }
     }
     
@@ -253,21 +269,26 @@ public class Vender extends javax.swing.JFrame {
     }//GEN-LAST:event_txt_valor_vendaKeyReleased
 
     private void bt_vendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_vendaActionPerformed
-        // TODO add your handling code here:
         try {
+            // Substitui vírgulas por pontos e remove espaços em branco para 
+            //normalizar o valor inserido
             String textoQtd = txt_valor_venda.getText().replace(",", ".").trim();
 
+            // Validação: verifica se o campo de texto está vazio antes de prosseguir
             if (textoQtd.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Insira a quantidade que "
                         + "deseja vender!", "Aviso", JOptionPane.WARNING_MESSAGE);
                 return;
             }
 
+            // Converte o texto validado num valor de ponto flutuante (double)
             double qtdVenda = Double.parseDouble(textoQtd);
             String nomeMoeda = (String) ComBox_compra.getSelectedItem();
             String siglaMoeda = "";
             double cotacaoAtual = 0.0;
 
+            // Mapeia o nome completo da criptomoeda selecionada para a 
+            //respectiva sigla e cotação de referência
             switch (nomeMoeda) {
                 case "Bitcoin": siglaMoeda = "BTC"; cotacaoAtual = 350000.00; 
                 break;
@@ -277,22 +298,32 @@ public class Vender extends javax.swing.JFrame {
                 break;
             }
 
+            // Instancia o controlador de venda injetando o investidor atual e 
+            //executa a regra de negócio
             ControleVenda controle = new ControleVenda(investidor);
             boolean sucesso = controle.realizarVenda(siglaMoeda, qtdVenda, 
                     cotacaoAtual);
 
+            // Verifica se a operação de venda foi concluída com sucesso na 
+            //base de dados
             if (sucesso) {
+                // Instancia e abre a janela de sucesso/feedback passando o 
+                //investidor com os saldos atualizados
                 Sucesso telaSucesso = new Sucesso(investidor);
-                telaSucesso.setLocationRelativeTo(this); // ou centralizada em relação à janela atual
+                telaSucesso.setLocationRelativeTo(this);
                 telaSucesso.setVisible(true);
 
             } else {
+                // Exibe uma mensagem de erro caso o saldo da criptomoeda seja 
+                //insuficiente ou o valor seja inválido
                 JOptionPane.showMessageDialog(this, "Saldo insuficiente da "
                         + "criptomoeda ou valor inválido!", "Erro", 
                         JOptionPane.ERROR_MESSAGE);
             }
 
         } catch (NumberFormatException e) {
+            // Trata eventuais erros de conversão numérica caso o utilizador 
+            //insira carateres inválidos
             JOptionPane.showMessageDialog(this, "Por favor, insira um valor "
                     + "numérico válido!", "Erro", JOptionPane.ERROR_MESSAGE);
         }

@@ -10,24 +10,32 @@ package view;
  */
 public class Saque extends javax.swing.JFrame {
     
+    // Logger para registo de eventos da classe
     private static final java.util.logging.Logger logger = 
             java.util.logging.Logger.getLogger(Saque.class.getName());
 
     /**
      * Creates new form Saque
      */
+    // Construtor que inicializa a janela de saque, define cores, comportamento 
+    //de fecho e formatação do campo de valores
     public Saque() {
         initComponents();
-        getContentPane().setBackground(new java.awt.Color(244, 239, 234));
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        getContentPane().setBackground(new java.awt.Color(244, 239, 234)); 
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE); 
 
-        // Placeholder e formatação monetária (igual ao depósito)
+        // Configura o placeholder inicial e a cor cinzenta para o campo de 
+        //texto do saque
         txt_saque.setForeground(java.awt.Color.GRAY);
         txt_saque.setText("R$ 0,00");
 
+        // Adiciona um FocusListener para gerir o comportamento do texto quando 
+        //o campo ganha ou perde o foco
         txt_saque.addFocusListener(new java.awt.event.FocusAdapter() {
             @Override
             public void focusGained(java.awt.event.FocusEvent evt) {
+                // Limpa o placeholder e muda a cor do texto para preto quando 
+                //o utilizador clica no campo
                 if (txt_saque.getText().equals("R$ 0,00")) {
                     txt_saque.setText("");
                     txt_saque.setForeground(java.awt.Color.BLACK);
@@ -36,6 +44,8 @@ public class Saque extends javax.swing.JFrame {
 
             @Override
             public void focusLost(java.awt.event.FocusEvent evt) {
+                // Restaura o placeholder padrão caso o campo fique vazio ao 
+                //perder o foco
                 if (txt_saque.getText().isEmpty()) {
                     txt_saque.setForeground(java.awt.Color.GRAY);
                     txt_saque.setText("R$ 0,00");
@@ -43,25 +53,34 @@ public class Saque extends javax.swing.JFrame {
             }
         });
 
+        // Adiciona um KeyListener para formatar dinamicamente os valores 
+        //monetários à medida que são digitados
         txt_saque.addKeyListener(new java.awt.event.KeyAdapter() {
             private String digits = "";
 
             @Override
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 char c = evt.getKeyChar();
+                // Trata a tecla Backspace (apagar) removendo o último dígito 
+                //acumulado
                 if (c == '\b' && !digits.isEmpty()) {
                     digits = digits.substring(0, digits.length() - 1);
                 } else if (Character.isDigit(c)) {
+                    // Adiciona apenas carateres numéricos à string de dígitos
                     digits += c;
                 }
-                evt.consume();
+                evt.consume(); // Consome o evento para evitar a inserção manual 
+                //direta sem formatação
 
+                // Se não houver dígitos, exibe o valor padrão
                 if (digits.isEmpty()) {
                     txt_saque.setText("R$ 0,00");
                     return;
                 }
 
                 try {
+                    // Converte os dígitos acumulados para o formato monetário 
+                    //com cêntimos (dividindo por 100)
                     long valorLong = Long.parseLong(digits);
                     double valorDouble = valorLong / 100.0;
                     txt_saque.setText(String.format("R$ %,.2f", valorDouble));
@@ -74,15 +93,19 @@ public class Saque extends javax.swing.JFrame {
     }
 
         
-    // Getters para o Controller
+    // Getters para disponibilizar os componentes visuais ao Controller
+    
+    // Retorna o texto formatado atualmente inserido no campo de saque
     public String getValorDigitado() {
         return txt_saque.getText();
     }
 
+    // Retorna o botão de confirmação do saque
     public javax.swing.JButton getBt_saque() {
         return bt_saque;
     }
 
+    // Retorna o botão de fechar/voltar
     public javax.swing.JButton getBt_voltar() {
         return bt_voltar;
     }

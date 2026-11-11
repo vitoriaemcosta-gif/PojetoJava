@@ -11,28 +11,33 @@ import model.Investidor;
  */
 public class SaldoEthereum extends javax.swing.JFrame {
     
+    // Logger para registo de eventos da classe
     private static final java.util.logging.Logger logger = 
             java.util.logging.Logger.getLogger(SaldoEthereum.class.getName());
 
     /**
      * Creates new form SaldoEthereum
      */
+    // Construtor padrão sem parâmetros para inicialização genérica da janela
     public SaldoEthereum() {
         initComponents();
-        getContentPane().setBackground(new java.awt.Color(68, 5, 18));
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        getContentPane().setBackground(new java.awt.Color(68, 5, 18)); 
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE); 
     }
 
-    // Construtor com parâmetros para exibir o saldo em ETH e a conversão em Reais
+    // Construtor com parâmetros para receber o objeto Investidor e a cotação 
+    //atual, exibindo o saldo em ETH e a respetiva conversão em Reais
     public SaldoEthereum(Investidor investidor, double cotacaoEth) {
         initComponents();
-        getContentPane().setBackground(new java.awt.Color(68, 5, 18)); // Fundo vinho
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        getContentPane().setBackground(new java.awt.Color(68, 5, 18)); 
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE); 
 
-        // Exibe a quantidade de Ethereum
+        // Formata e exibe a quantidade total de Ethereum possuída pelo 
+        //investidor (com 4 casas decimais)
         txt_ethereum.setText(String.format("%.4f ETH", investidor.getSaldoEth()));
         
-        // Calcula e exibe o valor convertido em Reais na label correspondente (ex: lbl_saldo)
+        // Calcula o valor total equivalente em Reais multiplicando o saldo de 
+        //ETH pela cotação atual e formata o resultado
         double valorEmReais = investidor.getSaldoEth() * cotacaoEth;
         txt_ethereum_conversao.setText(String.format("R$ %.2f", valorEmReais));
     }

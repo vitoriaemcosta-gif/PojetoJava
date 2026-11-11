@@ -23,7 +23,7 @@ public class SaldoReais extends javax.swing.JFrame {
     
         public SaldoReais(Investidor investidor) {
         initComponents();
-        getContentPane().setBackground(new java.awt.Color(68, 5, 18)); // Fundo vinho
+        getContentPane().setBackground(new java.awt.Color(68, 5, 18)); 
         // Garante que fecha apenas esta janela
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         // Formata e exibe o saldo de Bitcoin

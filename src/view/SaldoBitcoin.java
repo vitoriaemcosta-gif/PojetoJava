@@ -11,6 +11,7 @@ import model.Investidor;
  */
 public class SaldoBitcoin extends javax.swing.JFrame {
     
+    // Logger para registo de eventos da classe
     private static final java.util.logging.Logger logger = 
             java.util.logging.Logger.getLogger(SaldoBitcoin.class.getName());
 
@@ -18,27 +19,32 @@ public class SaldoBitcoin extends javax.swing.JFrame {
      * Creates new form SaldoBitcoin
      */
     
+    // Construtor padrão sem parâmetros para inicialização genérica da janela
     public SaldoBitcoin() {
         initComponents();
-        getContentPane().setBackground(new java.awt.Color(68, 5, 18));
+        getContentPane().setBackground(new java.awt.Color(68, 5, 18)); 
     }
     
+    // Construtor sobrecarregado que recebe o objeto Investidor e a cotação 
+    //atual do Bitcoin para calcular e exibir os saldos
     public SaldoBitcoin(Investidor investidor, double cotacaoBtc) {
         initComponents();
-        getContentPane().setBackground(new java.awt.Color(68, 5, 18)); // Fundo vinho
-        // Garante que fecha apenas esta janela
+        getContentPane().setBackground(new java.awt.Color(68, 5, 18)); 
+        
+        // Garante que o fecho da janela encerra apenas este ecrã e não a 
+        //aplicação inteira
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);     
+        
+        // Formata e exibe a quantidade total de Bitcoin possuída pelo 
+        //investidor (com 4 casas decimais)
         txt_bitcoin.setText(String.format("%.4f BTC", investidor.getSaldoBtc()));
 
-        // Formata e exibe o saldo de Bitcoin
+        // Calcula o valor total equivalente em Reais multiplicando o saldo 
+        //de BTC pela cotação atual e formata o resultado
         double valorEmReais = investidor.getSaldoBtc() * cotacaoBtc;
         txt_bitcoin_conversao.setText(String.format("R$ %.2f", valorEmReais));    
     }
     
-    
-    
-    
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
