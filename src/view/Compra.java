@@ -14,27 +14,40 @@ import model.Investidor;
  */
 public class Compra extends javax.swing.JFrame {
     
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(Compra.class.getName());
+    // Logger para registo de eventos da classe
+    private static final java.util.logging.Logger logger = 
+            java.util.logging.Logger.getLogger(Compra.class.getName());
+    
+    // Objeto do investidor autenticado que está a realizar a operação
     private Investidor investidor;
+    
+    // Configuração de localidade para o padrão brasileiro (pt-BR)
     private final java.util.Locale ptBr = java.util.Locale.forLanguageTag("pt-BR");
-    private final java.text.NumberFormat formatoMoeda = java.text.NumberFormat.getCurrencyInstance(ptBr);
+    
+    // Formatador para valores monetários em Reais (R$)
+    private final java.text.NumberFormat formatoMoeda = java.text.
+            NumberFormat.getCurrencyInstance(ptBr);
     
     /**
      * Creates new form Compra
      */
+    // Construtor que inicializa a janela de compra recebendo o investidor logado
     public Compra(Investidor investidor) {
         this.investidor = investidor;
         initComponents();
         configurarCampoMonetario();
-        getContentPane().setBackground(new java.awt.Color(244, 239, 234));
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setLocationRelativeTo(null);
+        getContentPane().setBackground(new java.awt.Color(244, 239, 234)); 
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE); 
+        setLocationRelativeTo(null); // Centraliza a janela no ecrã
         
-        // Exibe o saldo formatado e a cotação inicial
+        // Exibe o saldo atual em Reais formatado e atualiza a cotação inicial 
+        //da moeda selecionada
         lb_valor_cotacao1.setText(formatoMoeda.format(investidor.getSaldoReais()));
         atualizarCotacao();
     }
     
+    // Método privado para atualizar o valor da cotação exibida com base na 
+    //criptomoeda selecionada na combobox
     private void atualizarCotacao() {
         String moedaSelecionada = (String) ComBox_compra.getSelectedItem();
         double cotacao = 0.0;
@@ -49,19 +62,21 @@ public class Compra extends javax.swing.JFrame {
         lb_valor_cotacao.setText(formatoMoeda.format(cotacao));
     }
     
+    // Configura o comportamento do campo de texto monetário ao ganhar e perder o foco
     private void configurarCampoMonetario() {
-        // Formata o campo para aceitar valores monetários em formato brasileiro
         txt_valor_compra.setText("R$ 0,00");
         
         txt_valor_compra.addFocusListener(new java.awt.event.FocusAdapter() {
             @Override
             public void focusGained(java.awt.event.FocusEvent evt) {
+                // Limpa o campo se estiver com o valor padrão ao focar
                 if (txt_valor_compra.getText().equals("R$ 0,00")) {
                     txt_valor_compra.setText("");
                 }
             }
             @Override
             public void focusLost(java.awt.event.FocusEvent evt) {
+                // Restaura o valor padrão se o campo ficar vazio ao perder o foco
                 if (txt_valor_compra.getText().trim().isEmpty()) {
                     txt_valor_compra.setText("R$ 0,00");
                 }
@@ -69,6 +84,8 @@ public class Compra extends javax.swing.JFrame {
         });
     }
 
+    // Formata automaticamente o texto inserido no campo de compra em formato 
+    //de moeda à medida que o utilizador digita
     private void formatarCampoMoedaAoDigitar(java.awt.event.KeyEvent evt) {
         String texto = txt_valor_compra.getText().replaceAll("[^0-9]", "");
         
@@ -81,7 +98,8 @@ public class Compra extends javax.swing.JFrame {
         try {
             long valorLong = Long.parseLong(texto);
             double valorDouble = valorLong / 100.0;
-            java.text.NumberFormat formato = java.text.NumberFormat.getCurrencyInstance(java.util.Locale.forLanguageTag("pt-BR"));
+            java.text.NumberFormat formato = java.text.NumberFormat
+                    .getCurrencyInstance(java.util.Locale.forLanguageTag("pt-BR"));
             txt_valor_compra.setText(formato.format(valorDouble));
             txt_valor_compra.setCaretPosition(txt_valor_compra.getText().length());
         } catch (NumberFormatException e) {
@@ -259,11 +277,13 @@ public class Compra extends javax.swing.JFrame {
             String numeros = txt_valor_compra.getText().replaceAll("[^0-9]", "");
             
             if (numeros.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Insira o valor que deseja gastar na compra!", "Aviso", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Insira o valor que deseja "
+                        + "gastar na compra!", "Aviso", JOptionPane.WARNING_MESSAGE);
                 return;
             }
 
-            // Converte para double dividindo por 100 para obter o valor real com cêntimos
+            // Converte para double dividindo por 100 para obter o valor real 
+            //com cêntimos
             double valorGasto = Double.parseDouble(numeros) / 100.0;
             String nomeMoeda = (String) ComBox_compra.getSelectedItem();
             String siglaMoeda = "";
@@ -275,19 +295,24 @@ public class Compra extends javax.swing.JFrame {
                 case "Ripple": siglaMoeda = "XRP"; cotacaoAtual = 3.50; break;
             }
 
-            controller.ControleCompra controle = new controller.ControleCompra(investidor);
-            boolean sucesso = controle.realizarCompra(siglaMoeda, valorGasto, cotacaoAtual);
+            controller.ControleCompra controle = new controller.ControleCompra
+            (investidor);
+            boolean sucesso = controle.realizarCompra(siglaMoeda, valorGasto, 
+                                                      cotacaoAtual);
 
             if (sucesso) {
                 Sucesso telaSucesso = new Sucesso(investidor);
-                telaSucesso.setLocationRelativeTo(this); // ou centralizada em relação à janela atual
+                telaSucesso.setLocationRelativeTo(this); // ou centralizada em 
+                //relação à janela atual
                 telaSucesso.setVisible(true);
             } else {
-                JOptionPane.showMessageDialog(this, "Saldo insuficiente em Reais ou valor inválido!", "Erro", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Saldo insuficiente em Reais "
+                        + "ou valor inválido!", "Erro", JOptionPane.ERROR_MESSAGE);
             }
 
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Por favor, insira um valor numérico válido!", "Erro", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Por favor, insira um valor "
+                    + "numérico válido!", "Erro", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_bt_compraActionPerformed
 

@@ -9,7 +9,7 @@ public class Conexao {
         Connection conexao = DriverManager.getConnection(
             "jdbc:postgresql://localhost:5432/exchange_db",
             "postgres",
-            "vitoria" // <--- Sua senha do PostgreSQL
+            "vitoria" // <--- senha do PostgreSQL
         );
         return conexao;
     }

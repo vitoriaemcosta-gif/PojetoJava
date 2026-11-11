@@ -10,29 +10,34 @@ package view;
  */
 public class Sucesso extends javax.swing.JFrame {
     
+    // Logger para registo de eventos da classe
     private static final java.util.logging.Logger logger = 
             java.util.logging.Logger.getLogger(Sucesso.class.getName());
 
     /**
      * Creates new form Sucesso
      */
+    // Construtor padrão sem parâmetros para inicialização genérica da janela
     public Sucesso() {
         initComponents();
-        getContentPane().setBackground(new java.awt.Color(244, 239, 234));
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        getContentPane().setBackground(new java.awt.Color(244, 239, 234)); 
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE); 
 
     }
 
+    // Construtor sobrecarregado que recebe o objeto Investidor para exibir os 
+    //saldos atualizados após uma transação bem-sucedida
     public Sucesso(model.Investidor investidor) {
         initComponents();
-        getContentPane().setBackground(new java.awt.Color(244, 239, 234));
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        getContentPane().setBackground(new java.awt.Color(244, 239, 234)); 
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE); 
         
-        // Formata e preenche os saldos nas labels correspondentes
+        // Formata e preenche os saldos correntes das criptomoedas 
+        //(com 4 casas decimais) nas respetivas labels da interface
         lb_valorbit.setText(String.format("%.4f", investidor.getSaldoBtc()));
         lb_valorethe.setText(String.format("%.4f", investidor.getSaldoEth()));
         lb_valorripple.setText(String.format("%.4f", investidor.getSaldoXrp()));
-        }
+    }
     
     /**
      * This method is called from within the constructor to initialize the form.

@@ -10,23 +10,30 @@ import java.util.Locale;
  */
 public class Cotacao extends javax.swing.JFrame {
     
+    // Logger para registo de eventos da classe
     private static final java.util.logging.Logger logger = 
             java.util.logging.Logger.getLogger(Cotacao.class.getName());
 
     /**
      * Creates new form Cotacao
      */
+    // Construtor que inicializa a janela de cotações
     public Cotacao() {
         initComponents();
-        getContentPane().setBackground(new java.awt.Color(244, 239, 234));
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        getContentPane().setBackground(new java.awt.Color(244, 239, 234)); 
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE); 
     }
 
-    // Método para preencher os valores das cotações nas labels formatadas corretamente
+    // Método para preencher os valores das cotações nas respetivas labels, 
+    //formatando-os corretamente para o padrão monetário brasileiro 
+    //(R$, pontos de milhar e vírgula decimal)
     public void setValoresCotacao(double btc, double eth, double xrp) {
-        lb_valorbit.setText(String.format(Locale.forLanguageTag("pt-BR"), "R$ %,.2f", btc));
-        lb_valorethe.setText(String.format(Locale.forLanguageTag("pt-BR"), "R$ %,.2f", eth));
-        lb_valorripple.setText(String.format(Locale.forLanguageTag("pt-BR"), "R$ %,.2f", xrp));
+        lb_valorbit.setText(String.format(Locale.forLanguageTag("pt-BR"), 
+                "R$ %,.2f", btc));
+        lb_valorethe.setText(String.format(Locale.forLanguageTag("pt-BR"), 
+                "R$ %,.2f", eth));
+        lb_valorripple.setText(String.format(Locale.forLanguageTag("pt-BR"), 
+                "R$ %,.2f", xrp));
     }
     
     public javax.swing.JButton getBt_voltar() {
