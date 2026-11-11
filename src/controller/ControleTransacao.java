@@ -15,15 +15,29 @@ import java.sql.SQLException;
  */
 public class ControleTransacao {
 
-    public boolean registrarTransacao(String cpf, String dataHora, String tipo, String moeda, double valor, double taxa, 
-                                      double saldoReaisApos, double saldoBtcApos, double saldoEthApos, double saldoXrpApos) {
+    // Método responsável por registar uma nova transação na base de dados PostgreSQL
+    public boolean registrarTransacao(String cpf, String dataHora, String tipo, 
+                                      String moeda, double valor, double taxa, 
+                                      double saldoReaisApos, double saldoBtcApos, 
+                                      double saldoEthApos, double saldoXrpApos) {
+        
+        // Instancia a classe de conexão para obter o acesso à base de dados
         Conexao conexao = new Conexao();
-        String sql = "INSERT INTO transacao (cpf, data_hora, tipo, moeda, valor, taxa, saldo_reais_apos, saldo_btc_apos, saldo_eth_apos, saldo_xrp_apos) " +
+        
+        // Instrução SQL INSERT parametrizada para inserir os dados da operação 
+        //na tabela `transacao`
+        String sql = "INSERT INTO transacao (cpf, data_hora, tipo, moeda, valor, "
+                + "taxa, saldo_reais_apos, saldo_btc_apos, saldo_eth_apos, "
+                + "saldo_xrp_apos) " +
                      "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         
+        // Utiliza try-with-resources para garantir o fecho seguro da conexão 
+        //e do PreparedStatement
         try (Connection conn = conexao.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             
+            // Atribui os respetivos valores aos parâmetros da query 
+            //SQL de forma segura (prevenindo SQL Injection)
             stmt.setString(1, cpf);
             stmt.setString(2, dataHora);
             stmt.setString(3, tipo);
@@ -35,11 +49,13 @@ public class ControleTransacao {
             stmt.setDouble(9, saldoEthApos);
             stmt.setDouble(10, saldoXrpApos);
             
+            // Executa a instrução de inserção na base de dados
             stmt.executeUpdate();
-            return true;
+            return true; // Retorna verdadeiro se o registo for bem-sucedido
+            
         } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
+            e.printStackTrace(); // Regista o erro na consola caso ocorra falha de SQL
+            return false; // Retorna falso se a operação falhar
         }
     }
 }

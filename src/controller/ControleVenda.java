@@ -16,13 +16,18 @@ import model.*;
  */
 
 public class ControleVenda {
+    // Instância do investidor que está a realizar a operação de venda
     private Investidor investidor;
 
+    // Construtor que inicializa o controlador com o investidor autenticado
     public ControleVenda(Investidor investidor) {
         this.investidor = investidor;
     }
 
-    public boolean realizarVenda(String siglaMoeda, double qtdVendida, double cotacaoAtual) {
+    // Método principal para processar a venda de criptomoedas
+    public boolean realizarVenda(String siglaMoeda, double qtdVendida, 
+                                 double cotacaoAtual) {
+        // Validação: a quantidade a vender não pode ser menor ou igual a zero
         if (qtdVendida <= 0) {
             return false;
         }
@@ -30,7 +35,8 @@ public class ControleVenda {
         Moeda moedaObj = null;
         double saldoDisponivel = 0.0;
 
-        // Identifica a moeda e o saldo respetivo do investidor
+        // Identifica a criptomoeda escolhida (BTC, ETH ou XRP) utilizando 
+        //polimorfismo e recolhe o saldo respetivo
        switch (siglaMoeda.toUpperCase()) {
             case "BTC":
                 moedaObj = new Bitcoin(cotacaoAtual);
@@ -45,22 +51,26 @@ public class ControleVenda {
                 saldoDisponivel = investidor.getSaldoXrp();
                 break;
             default:
-                return false;
+                return false; // Moeda inválida ou não reconhecida
         }
 
-        // Verifica se o investidor tem saldo suficiente da criptomoeda
+        // Validação: verifica se o investidor possui saldo suficiente da 
+        //criptomoeda que deseja vender
         if (saldoDisponivel < qtdVendida) {
             return false;
         }
 
-        // Calcula o valor bruto e a taxa de venda usando a interface de Tarifação
+        // Calcula o valor bruto da venda e aplica a taxa correspondente 
+        //utilizando a interface de Tarifação
         double valorBruto = qtdVendida * cotacaoAtual;
         double valorTaxa = ((model.Tarifacao) moedaObj).calculaTaxaVenda(valorBruto);        
         double valorLiquidoReais = valorBruto - valorTaxa;
 
-        // Atualiza os saldos no objeto Investidor
+        // Atualiza o saldo em Reais na memória do objeto Investidor 
+        //(adicionando o valor líquido da venda)
         investidor.setSaldoReais(investidor.getSaldoReais() + valorLiquidoReais);
 
+        // Desconta a quantidade vendida do saldo da respetiva criptomoeda na memória
         switch (siglaMoeda.toUpperCase()) {
             case "BTC":
                 investidor.setSaldoBtc(investidor.getSaldoBtc() - qtdVendida);
@@ -73,17 +83,22 @@ public class ControleVenda {
                 break;
         }
 
-        // Persiste as alterações na base de dados PostgreSQL
+        // Persiste as alterações de saldo atualizadas na base de dados PostgreSQL
         boolean atualizado = atualizarSaldosNoBanco();
         
+        // Se a atualização na base de dados for bem-sucedida, regista a 
+        //transação na tabela de extrato
         if (atualizado) {
-            // Regista a transação na tabela transacao após o sucesso da venda
-            String dataHoraAtual = java.time.LocalDateTime.now().format(java.time.format.DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm"));
+            // Obtém a data e hora atual formatada
+            String dataHoraAtual = java.time.LocalDateTime.now().format
+            (java.time.format.DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm"));
             ControleTransacao ctrlTransacao = new ControleTransacao();
+            
+            // Regista os detalhes da venda na tabela `transacao`
             ctrlTransacao.registrarTransacao(
                 investidor.getCpf(),
                 dataHoraAtual,
-                "-", // ou "VENDA"
+                "-", // Indica saída/venda de criptomoeda
                 siglaMoeda.toUpperCase(),
                 qtdVendida,
                 valorTaxa,
@@ -97,22 +112,28 @@ public class ControleVenda {
         return atualizado;
     }
 
+    // Método auxiliar privado responsável por comunicar com o PostgreSQL e 
+    //atualizar os saldos do investidor
     private boolean atualizarSaldosNoBanco() {
         Conexao conexao = new Conexao();
         try (Connection conn = conexao.getConnection()) {
-            String sql = "UPDATE investidor SET saldo_reais = ?, saldo_btc = ?, saldo_eth = ?, saldo_xrp = ? WHERE cpf = ?";
+            String sql = "UPDATE investidor SET saldo_reais = ?, saldo_btc = ?, "
+                    + "saldo_eth = ?, saldo_xrp = ? WHERE cpf = ?";
             try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+                // Atribui os novos valores correntes aos parâmetros do SQL
                 stmt.setDouble(1, investidor.getSaldoReais());
                 stmt.setDouble(2, investidor.getSaldoBtc());
                 stmt.setDouble(3, investidor.getSaldoEth());
                 stmt.setDouble(4, investidor.getSaldoXrp());
                 stmt.setString(5, investidor.getCpf());
+                
+                // Executa a atualização na tabela `investidor`
                 stmt.executeUpdate();
                 return true;
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            return false;
+            return false; // Retorna falso se ocorrer erro de SQL
         }
     }
 }
